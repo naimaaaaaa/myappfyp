@@ -1,0 +1,66 @@
+*{
+    margin:0;
+    box-sizing: border-box;
+    font-family: 'Work Sans', sans-serif;
+
+}
+.page{
+    height: 100vh;
+    width: 150%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(193, 193, 52);
+
+}
+.container{
+    font-family: 'Work Sans', sans-serif;
+    font-family: 'Work Sans', sans-serif;
+    src: url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
+    background-color: rgb(255, 255, 255);
+    width: 10cm;
+    height: 13cm;
+    position: relative;
+    border-radius: 1cm;
+    box-shadow: 0.0.188cm 1.550cm rgb(156, 156, 156, 156);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    
+}
+
+.input-controlreg{
+    width: 185 spx;
+    position:absolute; 
+top: 140px; 
+left: 28%;
+line-height: 1em;
+ 
+}
+
+
+.input-control1reg{
+    width: 200 spx;
+    position:absolute; 
+top:190px; 
+left: 28%;
+line-height: 1em;
+ 
+}
+.input-control2reg{
+    width: 185 spx;
+    position:absolute; 
+top:240px; 
+ left: 28%;
+ line-height: 1em;
+ 
+}
+.input-control3reg{
+    width: 185 spx;
+    position:absolute; 
+top:270px; 
+ left: 28%;
+ line-height: 1em;
+ 
+}

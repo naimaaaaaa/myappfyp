@@ -1,0 +1,88 @@
+*{
+    margin:0;
+    box-sizing: border-box;
+    font-family: 'Work Sans', sans-serif;
+
+}
+
+@font-face {
+    font-family: 'Work Sans', sans-serif;
+    src: url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
+}
+.page{
+    height: 100vh;
+    width: 150%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(193, 193, 52);
+
+}
+.container{
+    font-family: 'Work Sans', sans-serif;
+    font-family: 'Work Sans', sans-serif;
+    src: url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
+    background-color: rgba(255, 255, 255, 0.286);
+    width: 10cm;
+    height: 10cm;
+    position: relative;
+    border-radius: 1cm;
+    box-shadow: 0.0.188cm 1.550cm rgb(156, 156, 156, 156);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    
+}
+
+.input-control1{
+    
+    width: 200 spx;
+    position:absolute; 
+top:180px; 
+left: 28%;
+}
+.input-control2{
+    width: 200 spx;
+    position:absolute; 
+top:220px; 
+ left: 28%;
+ line-height: 3em;
+ 
+}
+
+input[type="text"] {
+    width: 180px;
+    
+}
+/* .buttonlogin{
+      position: fixed; 
+    
+    width: 200px;
+    height: 100px;
+    font: size 40px; 
+    text-align:center;
+    padding: 2px;
+    border-radius: 20cm;
+} */
+
+
+
+.reglink{
+    text-align: center;
+    font-size: small;
+}
+
+
+
+/* input{
+    border-color: black;
+    border: 100px;
+    background-color: rgba(229, 226, 226);
+    height: 1em;
+    width: 60%;
+    border-radius: 2.25em;
+    text-align: center;
+    padding: 1.0em;
+  
+} */
