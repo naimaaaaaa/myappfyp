@@ -37,7 +37,7 @@
 // }
 
 import React from "react";
-//import VideoBG from "../components/globeVid.mp4";
+
 import "../Styles/home.css";
 
 
@@ -45,8 +45,7 @@ export default function Home(){
 
     return (
            <div className='main'>
-           <div className="vid-overlay"></div>
-           {/* <video src={VideoBG} autoPlay loop muted /> */}
+          
            <div className="content">
                <h1>Welcome to Student Safe Space!</h1>
                <h2>Where we encourage peer support and easy new connections</h2>

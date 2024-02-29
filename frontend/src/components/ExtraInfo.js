@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
 export default function ExtraInfo() {
     const jwt = sessionStorage.getItem("jwt");
-
     const [formData, setFormData] = useState({
-        course: [],
+        course: '',
         societies: [],
         sports: [],
         hobbies: [],
-        ethnicity: [],
+        ethnicity: '',
         otherSocieties: '',
         otherHobbies: '',
         successMessage: '',
         errorMessage: ''
     });
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevState => ({
@@ -24,39 +21,93 @@ export default function ExtraInfo() {
             successMessage: '',
             errorMessage: ''
         }));
+        console.log("Updated formData:", formData);
     };
+//
+const handleCheckboxChange = (e, category) => {
+    console.log("handleCheckboxChange is called");
+    console.log("Selected category:", category);
+    console.log("Checked value:", e.target.checked);
+    console.log("Selected value:", e.target.value);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            console.log("FORM DATA", JSON.stringify(formData));
-            const response = await axios.post(`/user-extra/create`, formData
-            ,{
+    const { name, value, checked } = e.target;
+    let updatedValues = [];
 
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${jwt}`,
-                  },
-            }
-            ); 
-           
-            console.log(response.data);
-            setFormData(prevState => ({
-                ...prevState,
-                successMessage: 'Successfully saved',
-                errorMessage: ''
-            }));
-        }  catch (error) {
-            console.error('Error:', error);
-            setFormData(prevState => ({
-                ...prevState,
-                successMessage: '',
-                errorMessage: 'Error'
-            }));
+    if (value === "Other") {
+        if (checked) {
+            updatedValues = [...formData[category], value];
+        } else {
+            updatedValues = formData[category].filter((item) => item !== value);
         }
-    };
+    } else {
+        if (checked) {
+            updatedValues = [...formData[category], value];
+        } else {
+            updatedValues = formData[category].filter((item) => item !== value && item !== "Other");
+        }
+    }
+
+    setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: updatedValues,
+    }));
+};
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const response = await axios.post('/user-extra', {
+            ...formData,
+            // Serialize arrays to JSON strings
+            societies: JSON.stringify(formData.societies),
+            sports: JSON.stringify(formData.sports),
+            hobbies: JSON.stringify(formData.hobbies)
+        }, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        });
+        // Handle success
+        console.log("User extra profile created:", response.data);
+        setFormData({ ...formData, successMessage: 'User extra profile created successfully', errorMessage: '' });
+    } catch (error) {
+        // Handle error
+        console.error("Error creating user extra profile:", error);
+        setFormData({ ...formData, errorMessage: 'Failed to create user extra profile', successMessage: '' });
+    }
+};
+    //
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //        // console.log("FORM DATA", JSON.stringify(formData));
+    //         const response = await axios.post(`/user-extra`,
+    //          formData,
+    //          {
+    //             headers: {
+    //                 // "Content-Type": "multipart/form-data",
+
+    //                 "Content-Type": "application/json", 
+    //                 Authorization: `Bearer ${jwt}`,
+    //               },
+    //         }
+    //         ); 
+    //         console.log(response.data);
+    //         setFormData(prevState => ({
+    //             ...prevState,
+    //             successMessage: 'Successfully saved',
+    //             errorMessage: ''
+    //         }));
+    //     }  catch (error) {
+    //         console.error('Error:', error);
+    //         setFormData(prevState => ({
+    //             ...prevState,
+    //             successMessage: '',
+    //             errorMessage: 'Error'
+    //         }));
+    //     }
+    // };
     //formdata has prob
-    console.log("NAIMA", jwt);
+    //console.log("JWT!!!!!", jwt);
     return (
         <div>
             
@@ -71,41 +122,7 @@ export default function ExtraInfo() {
                         <option value="Arts and Humanities">Arts and Humanities</option>
                         <option value="Biology">Biology</option>
                         <option value="Business and Management">Business and Management</option>
-                        <option value="Chemistry">Chemistry</option>
-                        <option value="Combined Studies">Combined Studies</option>
-                        <option value="Computing and IT">Computing and IT</option>
-                        <option value="Counselling">Counselling</option>
-                        <option value="Creative Writing">Creative Writing</option>
-                        <option value="Criminology">Criminology</option>
-                        <option value="Design">Design</option>
-                        <option value="Early Years">Early Years</option>
-                        <option value="Economics">Economics</option>
-                        <option value="Education">Education</option>
-                        <option value="Engineering">Engineering</option>
-                        <option value="English">English</option>
-                        <option value="Environment">Environment</option>
-                        <option value="Geography">Geography</option>
-                        <option value="Health and Social Care">Health and Social Care</option>
-                        <option value="Health and Wellbeing">Health and Wellbeing</option>
-                        <option value="Health Sciences">Health Sciences</option>
-                        <option value="History">History</option>
-                        <option value="International Studies">International Studies</option>
-                        <option value="Languages">Languages</option>
-                        <option value="Law'">Law</option>
-                        <option value="Mathematics">Mathematics</option>
-                        <option value="Mental Health ">Mental Health </option>
-                        <option value="Music">Music</option>
-                        <option value="Nursing and Healthcare">Nursing and Healthcare </option>
-                        <option value="Philosophy">Philosophy</option>
-                        <option value="Physics ">Physics </option>
-                        <option value="Politics">Politics</option>
-                        <option value="Psychology">Psychology</option>
-                        <option value="Science">Science</option>
-                        <option value="Social Sciences">Social Sciences</option>
-                        <option value="Social Work">Social Work</option>
-                        <option value="Sport and Fitness">Sport and Fitness</option>
-                        <option value="Statistics">Statistics</option>
-   
+                      //...
                         <option value="Other">Other</option>
                     </select>
                     {formData.course === 'Other' && (
@@ -117,7 +134,8 @@ export default function ExtraInfo() {
                 
                 <label>
                     Societies:
-                    <select name="societies" value={formData.societies} onChange={handleChange}>
+                    {/* <select name="societies" value={formData.societies} onChange={handleCheckboxChange} multiple> */}
+                    <select name="societies" value={formData.societies} onChange={(e) => handleCheckboxChange(e, "societies")} multiple>
                         <option value="">Select</option>
                         <option value="Accounting">Accounting</option>
                         <option value="Advocacy">Advocacy</option>
@@ -181,15 +199,18 @@ export default function ExtraInfo() {
                         <option value="Women in STEM">Women in STEM+</option>
                         <option value="Other">Other</option>
                     </select>
-                    {formData.societies === 'Other' && (
+                    {formData.societies.includes ('Other') && (
+                        // <input type="text" name="otherSocieties" value={formData.otherSocieties} onChange={handleChange} placeholder="Enter other society" />
                         <input type="text" name="otherSocieties" value={formData.otherSocieties} onChange={handleChange} placeholder="Enter other society" />
+
                     )}
                 </label>
                 <br />
 
                 <label>
                     Sports:
-                    <select name="sports" value={formData.sports} onChange={handleChange}>
+                    {/* <select name="sports" value={formData.sports} onChange={handleCheckboxChange} multiple> */}
+                    <select name="sports" value={formData.sports} onChange={(e) => handleCheckboxChange(e, "sports")} multiple>
                         <option value="">Select</option>
                         <option value="American Football">American Football</option>
                         <option value="Artistic Gymnastics">Artistic Gymnastics</option>
@@ -252,7 +273,7 @@ export default function ExtraInfo() {
                         <option value="Weightlifting">Weightlifting</option>
 
                     </select>
-                    {formData.sports === 'Other' && (
+                    {formData.sports.includes('Other') && (
                         <input type="text" name="otherSports" value={formData.otherSports} onChange={handleChange} placeholder="Enter other sports" />
                     )}
                 </label>
@@ -260,7 +281,8 @@ export default function ExtraInfo() {
 
                 <label>
                     Hobbies:
-                    <select name="hobbies" value={formData.hobbies} onChange={handleChange}>
+                    {/* <select name="hobbies" value={formData.hobbies} onChange={handleCheckboxChange} multiple> */}
+                    <select name="hobbies" value={formData.hobbies} onChange={(e) => handleCheckboxChange(e, "hobbies")} multiple>
                         <option value="">Select</option>
                         <option value="Astrology">Astrology</option>
                         <option value="Acting">Acting</option>
@@ -406,7 +428,7 @@ export default function ExtraInfo() {
 
                         <option value="Other">Other</option>
                     </select>
-                    {formData.hobbies === 'Other' && (
+                    {formData.hobbies.includes('Other') && (
                         <input type="text" name="otherHobbies" value={formData.otherHobbies} onChange={handleChange} placeholder="Enter other hobby" />
                     )}
                 </label>
@@ -436,3 +458,37 @@ export default function ExtraInfo() {
         </div>
     );
 }
+{/* <option value="Chemistry">Chemistry</option>
+<option value="Combined Studies">Combined Studies</option>
+<option value="Computing and IT">Computing and IT</option>
+<option value="Counselling">Counselling</option>
+<option value="Creative Writing">Creative Writing</option>
+<option value="Criminology">Criminology</option>
+<option value="Design">Design</option>
+<option value="Early Years">Early Years</option>
+<option value="Economics">Economics</option>
+<option value="Education">Education</option>
+<option value="Engineering">Engineering</option>
+<option value="English">English</option>
+<option value="Environment">Environment</option>
+<option value="Geography">Geography</option>
+<option value="Health and Social Care">Health and Social Care</option>
+<option value="Health and Wellbeing">Health and Wellbeing</option>
+<option value="Health Sciences">Health Sciences</option>
+<option value="History">History</option>
+<option value="International Studies">International Studies</option>
+<option value="Languages">Languages</option>
+<option value="Law'">Law</option>
+<option value="Mathematics">Mathematics</option>
+<option value="Mental Health ">Mental Health </option>
+<option value="Music">Music</option>
+<option value="Nursing and Healthcare">Nursing and Healthcare </option>
+<option value="Philosophy">Philosophy</option>
+<option value="Physics ">Physics </option>
+<option value="Politics">Politics</option>
+<option value="Psychology">Psychology</option>
+<option value="Science">Science</option>
+<option value="Social Sciences">Social Sciences</option>
+<option value="Social Work">Social Work</option>
+<option value="Sport and Fitness">Sport and Fitness</option>
+<option value="Statistics">Statistics</option> */}

@@ -44,7 +44,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.Arrays;
 
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 public class SecurityConfiguration {
 	@Autowired
 	 private UserDetailsServiceImpl userDetailsService;
@@ -66,35 +66,37 @@ public class SecurityConfiguration {
 
 		http
 			.csrf(csrf -> csrf.disable())
-			.cors()
-			.and()
+			.cors().and()
 			.sessionManagement()
-	        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		
-
-
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 			
 		http
 		.authorizeRequests()
-		.antMatchers(HttpMethod.POST, "/user")
-		//.authenticated()
-		// .antMatchers(HttpMethod.OPTIONS, "/user/newemail/findByEmail/{email}")
-		//.permitAll()
-		//.anyRequest().authenticated() /*remove line*/
-		
-		
-		// .antMatchers(HttpMethod.PUT, "/email/**")/*"/email/id" */
-        // .authenticated()
-        // .antMatchers(HttpMethod.PUT, "/password/**")
-        // .authenticated()
-		// .antMatchers(HttpMethod.POST, "/picture")
-        // .authenticated()
+		.antMatchers("/ws/**").permitAll() 
+		.antMatchers(HttpMethod.POST, "/user").permitAll()
+		.antMatchers("/user/findByEmail").permitAll() // Add this line to permit access to /get-name
+		//.antMatchers("/user-extra").permitAll() 
+		.antMatchers(HttpMethod.POST, "/user-extra").permitAll()
 
-	    .permitAll()
+		.antMatchers("/create").permitAll()
+		.antMatchers("/user-extra/create").permitAll()
+		
+		.anyRequest().authenticated() 
+		.and()
+		.authorizeRequests()
+		//add endpoints you want public access to here like above.
+
+		
+	
+
+	 
 	    .and()
 	    .authorizeRequests()
-		.anyRequest().authenticated()
+		//.anyRequest().authenticated() 
+		//todo remove the line above if you want the 403 to stop. this makes every request authenticated. however you can keep it and make all the endpoint authenticated but you gotta explicitly specify the endpoint you want give public access in the line above. 
 		.and()
+
+		
 		.addFilterBefore(new LoginFilter("/login", authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))),
 				UsernamePasswordAuthenticationFilter.class)
 		.addFilterBefore(new JWTAuthenticationFilter(), 
@@ -112,11 +114,13 @@ public class SecurityConfiguration {
 				registry.addMapping("/**")
 				.allowedOrigins("http://localhost:3000")
 				//
-				.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+				// .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+				.allowedMethods("*") 
                     .allowedHeaders("*")
                     .exposedHeaders("Authorization")
                     .allowCredentials(true)
                     .maxAge(3600);
+					
 					//
 			}
 		};

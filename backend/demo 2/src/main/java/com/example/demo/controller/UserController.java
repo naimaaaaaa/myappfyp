@@ -22,7 +22,6 @@ import com.example.demo.service.UserService;
 
 @RestController  
 public class UserController {
-	
 	@Autowired
 	UserService userService;
 
@@ -72,15 +71,15 @@ public class UserController {
     	return Optional.ofNullable(userService.findByEmail(email));
     }
 //Get user by name
-    @GetMapping("/get-name")
-    public ResponseEntity<String> getNameByEmail(@RequestParam String email) {
-        User user = userService.findByEmail(email);
-        if (user != null) {
-            return ResponseEntity.ok(user.getName());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
-    }
+    // @GetMapping("/user/getname")
+    // public ResponseEntity<String> getNameByEmail(@RequestParam String email) {
+    //     User user = userService.findByEmail(email);
+    //     if (user != null) {
+    //         return ResponseEntity.ok(user.getName());
+    //     } else {
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+    //     }
+    // }
 
     
 

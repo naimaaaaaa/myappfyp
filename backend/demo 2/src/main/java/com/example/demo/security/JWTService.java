@@ -40,7 +40,7 @@ public class JWTService {
       if (user != null) 
     	  return new UsernamePasswordAuthenticationToken(user, null, emptyList()); 
       }catch(Exception e){
-    	System.out.println(e.getMessage());
+    	System.out.println("Error parsing JWT token: "+e.getMessage());
       }
     }
     return null;

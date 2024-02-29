@@ -1,11 +1,80 @@
+// package com.example.demo.controller;
+
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
+
+// import com.example.demo.model.UserExtra;
+// import com.example.demo.service.UserExtraService;
+
+// import java.util.Optional;
+
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.http.HttpStatus;
+// import org.springframework.http.ResponseEntity;
+// import org.springframework.web.bind.annotation.*;
+// @RestController
+// //@RequestMapping("/user-extra")
+// public class UserExtraController {
+//     private static final Logger logger = LoggerFactory.getLogger(UserExtraController.class);
+//     @Autowired
+//     private UserExtraService userExtraService;
+//     // Create a new user extra profile
+//     // @PostMapping("/create")
+//     // public ResponseEntity<UserExtra> createUserExtraProfile(@RequestBody UserExtra userExtra) {
+//     //     logger.info("Received request to create user extra profile: {}", userExtra);
+//     //     UserExtra createdProfile = userExtraService.createUserExtraProfile(userExtra);
+//     //     logger.info("User extra profile created: {}", createdProfile);
+//     //     return new ResponseEntity<>(createdProfile, HttpStatus.CREATED);
+//     // }
+//     @PostMapping("/user-extra")
+//     public ResponseEntity<UserExtra> createUserExtraProfile(@RequestBody UserExtra userExtra) {
+//         try {
+//             logger.info("Received request to create user extra profile: {}", userExtra);
+//             UserExtra createdProfile = userExtraService.createUserExtraProfile(userExtra);
+//             logger.info("User extra profile created: {}", createdProfile);
+//             return new ResponseEntity<>(createdProfile, HttpStatus.CREATED);
+//         } catch (Exception e) {
+//             logger.error("Error creating user extra profile", e);
+//             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//         }
+//     }
+    
+
+//    // Get user extra profile by user ID
+// @GetMapping("/{userId}")
+// public ResponseEntity<UserExtra> getUserExtraProfileByUserId(@PathVariable Long userId) {
+//     Optional<UserExtra> userExtraOptional = userExtraService.getUserExtraProfileByUserId(userId);
+//     if (userExtraOptional.isPresent()) {
+//         return new ResponseEntity<>(userExtraOptional.get(), HttpStatus.OK);
+//     } else {
+//         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//     }
+// }
+//     // Update user extra profile
+//     @PutMapping("/update/{userId}")
+//     public ResponseEntity<UserExtra> updateUserExtraProfile(@PathVariable Long userId, @RequestBody UserExtra userExtra) {
+//         UserExtra updatedProfile = userExtraService.updateUserExtraProfile(userId, userExtra);
+//         if (updatedProfile != null) {
+//             return new ResponseEntity<>(updatedProfile, HttpStatus.OK);
+//         } else {
+//             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//         }
+//     }
+//     // Delete user extra profile
+//     @DeleteMapping("/delete/{userId}")
+//     public ResponseEntity<Void> deleteUserExtraProfile(@PathVariable Long userId) {
+//         userExtraService.deleteUserExtraProfile(userId);
+//         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//     }
+// }
+
+
+
+
+
 package com.example.demo.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.example.demo.model.UserExtra;
-import com.example.demo.service.UserExtraService;
-
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,56 +82,66 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.dto.UserExtraDTO;
+import com.example.demo.model.UserExtra;
+import com.example.demo.service.UserExtraService;
+
 @RestController
-@RequestMapping("/user-extra")
 public class UserExtraController {
-    private static final Logger logger = LoggerFactory.getLogger(UserExtraController.class);
 
     @Autowired
     private UserExtraService userExtraService;
 
-    // Create a new user extra profile
-    @PostMapping("/create")
-    public ResponseEntity<UserExtra> createUserExtraProfile(@RequestBody UserExtra userExtra) {
-        logger.info("Received request to create user extra profile: {}", userExtra);
-
-        UserExtra createdProfile = userExtraService.createUserExtraProfile(userExtra);
-        logger.info("User extra profile created: {}", createdProfile);
-
-        return new ResponseEntity<>(createdProfile, HttpStatus.CREATED);
+    @GetMapping("/user-extra")
+    public List<UserExtra> getUserExtras() {
+        return userExtraService.getUserExtra();
     }
 
-   // Get user extra profile by user ID
-@GetMapping("/{userId}")
-public ResponseEntity<UserExtra> getUserExtraProfileByUserId(@PathVariable Long userId) {
-    Optional<UserExtra> userExtraOptional = userExtraService.getUserExtraProfileByUserId(userId);
-    if (userExtraOptional.isPresent()) {
-        return new ResponseEntity<>(userExtraOptional.get(), HttpStatus.OK);
-    } else {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-}
+    // @PostMapping("/user-extra")
+    // public ResponseEntity<UserExtra> createUserExtraProfile(@RequestBody UserExtra userExtra) {
+    //     try {
+    //         UserExtra createdProfile = userExtraService.createUserExtraProfile(userExtra);
+    //         return new ResponseEntity<>(createdProfile, HttpStatus.CREATED);
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
 
-    // Update user extra profile
-    @PutMapping("/update/{userId}")
-    public ResponseEntity<UserExtra> updateUserExtraProfile(@PathVariable Long userId, @RequestBody UserExtra userExtra) {
-        UserExtra updatedProfile = userExtraService.updateUserExtraProfile(userId, userExtra);
-        if (updatedProfile != null) {
-            return new ResponseEntity<>(updatedProfile, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PostMapping("/user-extra")
+    public ResponseEntity<UserExtra> createUserExtraProfile(@RequestBody UserExtraDTO userExtraDTO) {
+        try {
+            UserExtra userExtra = new UserExtra();
+            userExtra.setCourse(userExtraDTO.getCourse());
+            userExtra.setHobbies(userExtraDTO.getHobbies());
+            userExtra.setSocieties(userExtraDTO.getSocieties());
+            userExtra.setSports(userExtraDTO.getSports());
+            userExtra.setEthnicity(userExtraDTO.getEthnicity());
+            
+            UserExtra createdProfile = userExtraService.createUserExtraProfile(userExtra);
+            return new ResponseEntity<>(createdProfile, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    // Delete user extra profile
-    @DeleteMapping("/delete/{userId}")
+    @GetMapping("/user-extra/{userId}")
+    public ResponseEntity<UserExtra> getUserExtraProfileByUserId(@PathVariable Long userId) {
+        Optional<UserExtra> userExtraOptional = userExtraService.getUserExtraProfileByUserId(userId);
+        return userExtraOptional.map(userExtra -> new ResponseEntity<>(userExtra, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PutMapping("/user-extra/update/{userId}")
+    public ResponseEntity<UserExtra> updateUserExtraProfile(@PathVariable Long userId, @RequestBody UserExtra userExtra) {
+        UserExtra updatedProfile = userExtraService.updateUserExtraProfile(userId, userExtra);
+        return updatedProfile != null ?
+                new ResponseEntity<>(updatedProfile, HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/user-extra/delete/{userId}")
     public ResponseEntity<Void> deleteUserExtraProfile(@PathVariable Long userId) {
         userExtraService.deleteUserExtraProfile(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
-
-
-
-
-
