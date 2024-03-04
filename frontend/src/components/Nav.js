@@ -1,18 +1,24 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import "../Styles/Nav.css";
 import { useState } from "react";
-
-
 
 export default function Nav() {
   const [aboutBool, setAboutBool] = useState();
   const activate_about = () => {
     setAboutBool(true);
-  }
+  };
   const deactivate_about = () => {
     setAboutBool(false);
-  }
+  };
 
+  const navigate = useNavigate;
+
+  const handleLogOut = async () => {
+    // navigate("/");
+    sessionStorage.clear("email")
+    sessionStorage.clear("jwt")
+    window.location.reload()
+};
 
   return (
     <div className="Nav-Div">
@@ -20,7 +26,7 @@ export default function Nav() {
         <Link className="nav-link" to={"/"}>
           Home
         </Link>
-        
+
         <Link className="nav-link" to={"/ChatRoom"}>
           ChatRoom
         </Link>
@@ -35,24 +41,18 @@ export default function Nav() {
         {/* <Link className="nav-link" to={"/UserDetails"}>
          Settings
         </Link>  */}
-
       </nav>
       <div className="about-drop-down" onMouseLeave={deactivate_about}>
-        <div className="nav-link" id="about-button" onMouseOver={activate_about}>
+        <div
+          className="nav-link"
+          id="about-button"
+          onMouseOver={activate_about}
+        >
           <p>About</p>
         </div>
-        {aboutBool
-        // && (
-        //   <div className="about-details">
-        //     <Link className="nav-link" to={"/aboutCollect"}>Collect Info</Link>
-        //     <Link className="nav-link">Forum Info</Link>
-        //     <Link className="nav-link">Quest Info</Link>
-            
-        //   </div>
-        // )
-    }        
+        {aboutBool}
       </div>
-      <Link className="nav-link" to={"/logout"}>
+      <Link className="nav-link" onClick={handleLogOut}>
         Log Out
       </Link>
     </div>

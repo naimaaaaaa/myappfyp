@@ -4,9 +4,9 @@ export default function ExtraInfo() {
     const jwt = sessionStorage.getItem("jwt");
     const [formData, setFormData] = useState({
         course: '',
-        societies: [],
-        sports: [],
-        hobbies: [],
+        societies: '',
+        sports: '',
+        hobbies: '',
         ethnicity: '',
         otherSocieties: '',
         otherHobbies: '',
@@ -23,91 +23,89 @@ export default function ExtraInfo() {
         }));
         console.log("Updated formData:", formData);
     };
-//
-const handleCheckboxChange = (e, category) => {
-    console.log("handleCheckboxChange is called");
-    console.log("Selected category:", category);
-    console.log("Checked value:", e.target.checked);
-    console.log("Selected value:", e.target.value);
 
-    const { name, value, checked } = e.target;
-    let updatedValues = [];
-
-    if (value === "Other") {
-        if (checked) {
-            updatedValues = [...formData[category], value];
-        } else {
-            updatedValues = formData[category].filter((item) => item !== value);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:8080/user-extra', {
+                ...formData,
+                societies: formData.societies === 'Other' ? formData.otherSocieties : formData.societies,
+                sports: formData.sports === 'Other' ? formData.otherSports : formData.sports,
+                hobbies: formData.hobbies === 'Other' ? formData.otherHobbies : formData.hobbies,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
+                }
+            });
+            console.log('Response:', response.data);
+            setFormData({
+                course: '',
+                hobbies: '',
+                societies: '',
+                sports: '',
+                ethnicity: '',
+                successMessage: 'User extra profile created successfully!',
+                errorMessage: ''
+            });
+        } catch (error) {
+            console.error('Error creating user extra profile:', error);
+            setFormData(prevState => ({
+                ...prevState,
+                errorMessage: 'Failed to create user extra profile'
+            }));
         }
-    } else {
-        if (checked) {
-            updatedValues = [...formData[category], value];
-        } else {
-            updatedValues = formData[category].filter((item) => item !== value && item !== "Other");
-        }
-    }
+    };
+    
 
-    setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: updatedValues,
-    }));
-};
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-        const response = await axios.post('/user-extra', {
-            ...formData,
-            // Serialize arrays to JSON strings
-            societies: JSON.stringify(formData.societies),
-            sports: JSON.stringify(formData.sports),
-            hobbies: JSON.stringify(formData.hobbies)
-        }, {
-            headers: {
-                Authorization: `Bearer ${jwt}`
-            }
-        });
-        // Handle success
-        console.log("User extra profile created:", response.data);
-        setFormData({ ...formData, successMessage: 'User extra profile created successfully', errorMessage: '' });
-    } catch (error) {
-        // Handle error
-        console.error("Error creating user extra profile:", error);
-        setFormData({ ...formData, errorMessage: 'Failed to create user extra profile', successMessage: '' });
-    }
-};
-    //
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //        // console.log("FORM DATA", JSON.stringify(formData));
-    //         const response = await axios.post(`/user-extra`,
-    //          formData,
-    //          {
-    //             headers: {
-    //                 // "Content-Type": "multipart/form-data",
-
-    //                 "Content-Type": "application/json", 
-    //                 Authorization: `Bearer ${jwt}`,
-    //               },
-    //         }
-    //         ); 
-    //         console.log(response.data);
-    //         setFormData(prevState => ({
-    //             ...prevState,
-    //             successMessage: 'Successfully saved',
-    //             errorMessage: ''
-    //         }));
-    //     }  catch (error) {
-    //         console.error('Error:', error);
-    //         setFormData(prevState => ({
-    //             ...prevState,
-    //             successMessage: '',
-    //             errorMessage: 'Error'
-    //         }));
-    //     }
-    // };
-    //formdata has prob
-    //console.log("JWT!!!!!", jwt);
+// const handleSubmit = async (e) => {
+//     // e.preventDefault();
+//     // try {
+//     //     const response = await axios.post('/user-extra', {
+//     //         ...formData,
+//     //         // Serialize arrays to JSON strings
+//     //         societies: JSON.stringify(formData.societies),
+//     //         sports: JSON.stringify(formData.sports),
+//     //         hobbies: JSON.stringify(formData.hobbies)
+//     //     }, {
+//     //         headers: {
+//     //             Authorization: `Bearer ${jwt}`
+//     //         }
+//     //     });
+//     //     // Handle success
+//     //     console.log("User extra profile created:", response.data);
+//     //     setFormData({ ...formData, successMessage: 'User extra profile created successfully', errorMessage: '' });
+//     // } catch (error) {
+//     //     // Handle error
+//     //     console.error("Error creating user extra profile:", error);
+//     //     setFormData({ ...formData, errorMessage: 'Failed to create user extra profile', successMessage: '' });
+//     // }
+//     e.preventDefault();
+//     try {
+//         const response = await axios.post('http://localhost:8080/user-extra', formData, {
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+//         console.log('Response:', response.data);
+//         setFormData({
+//             course: '',
+//             hobbies: '',
+//             societies: '',
+//             sports: '',
+//             ethnicity: '',
+//             successMessage: 'User extra profile created successfully!',
+//             errorMessage: ''
+//         });
+//     } catch (error) {
+//         console.error('Error creating user extra profile:', error);
+//         setFormData(prevState => ({
+//             ...prevState,
+//             errorMessage: 'Failed to create user extra profile'
+//         }));
+//     }
+// };
+  
     return (
         <div>
             
@@ -122,7 +120,40 @@ const handleSubmit = async (e) => {
                         <option value="Arts and Humanities">Arts and Humanities</option>
                         <option value="Biology">Biology</option>
                         <option value="Business and Management">Business and Management</option>
-                      //...
+                      <option value="Chemistry">Chemistry</option>
+<option value="Combined Studies">Combined Studies</option>
+<option value="Computing and IT">Computing and IT</option>
+<option value="Counselling">Counselling</option>
+<option value="Creative Writing">Creative Writing</option>
+<option value="Criminology">Criminology</option>
+<option value="Design">Design</option>
+<option value="Early Years">Early Years</option>
+<option value="Economics">Economics</option>
+<option value="Education">Education</option>
+<option value="Engineering">Engineering</option>
+<option value="English">English</option>
+<option value="Environment">Environment</option>
+<option value="Geography">Geography</option>
+<option value="Health and Social Care">Health and Social Care</option>
+<option value="Health and Wellbeing">Health and Wellbeing</option>
+<option value="Health Sciences">Health Sciences</option>
+<option value="History">History</option>
+<option value="International Studies">International Studies</option>
+<option value="Languages">Languages</option>
+<option value="Law'">Law</option>
+<option value="Mathematics">Mathematics</option>
+<option value="Mental Health ">Mental Health </option>
+<option value="Music">Music</option>
+<option value="Nursing and Healthcare">Nursing and Healthcare </option>
+<option value="Philosophy">Philosophy</option>
+<option value="Physics ">Physics </option>
+<option value="Politics">Politics</option>
+<option value="Psychology">Psychology</option>
+<option value="Science">Science</option>
+<option value="Social Sciences">Social Sciences</option>
+<option value="Social Work">Social Work</option>
+<option value="Sport and Fitness">Sport and Fitness</option>
+<option value="Statistics">Statistics</option>
                         <option value="Other">Other</option>
                     </select>
                     {formData.course === 'Other' && (
@@ -135,7 +166,9 @@ const handleSubmit = async (e) => {
                 <label>
                     Societies:
                     {/* <select name="societies" value={formData.societies} onChange={handleCheckboxChange} multiple> */}
-                    <select name="societies" value={formData.societies} onChange={(e) => handleCheckboxChange(e, "societies")} multiple>
+                    {/* <select name="societies" value={formData.societies} onChange={(e) => handleCheckboxChange(e, "societies")} multiple> */}
+                    {/* <select name="Societies" value={formData.Societies} onChange={handleChange}> */}
+                    <select name="societies" value={formData.societies} onChange={handleChange}>
                         <option value="">Select</option>
                         <option value="Accounting">Accounting</option>
                         <option value="Advocacy">Advocacy</option>
@@ -199,18 +232,24 @@ const handleSubmit = async (e) => {
                         <option value="Women in STEM">Women in STEM+</option>
                         <option value="Other">Other</option>
                     </select>
-                    {formData.societies.includes ('Other') && (
-                        // <input type="text" name="otherSocieties" value={formData.otherSocieties} onChange={handleChange} placeholder="Enter other society" />
-                        <input type="text" name="otherSocieties" value={formData.otherSocieties} onChange={handleChange} placeholder="Enter other society" />
 
-                    )}
+                    {/* {formData.societies.includes ('Other') && (
+                        <input type="text" name="otherSocieties" value={formData.otherSocieties} onChange={handleChange} placeholder="Enter other society" />
+                    )} */}
+                    {formData.societies === 'Other' && (
+    <input type="text" name="otherSocieties" value={formData.otherSocieties} onChange={handleChange} placeholder="Enter other society" />
+)}
+
                 </label>
                 <br />
 
                 <label>
                     Sports:
                     {/* <select name="sports" value={formData.sports} onChange={handleCheckboxChange} multiple> */}
-                    <select name="sports" value={formData.sports} onChange={(e) => handleCheckboxChange(e, "sports")} multiple>
+                    {/* <select name="sports" value={formData.sports} onChange={(e) => handleCheckboxChange(e, "sports")} multiple> */}
+                    {/* <select name="Sports" value={formData.Sports} onChange={handleChange}> */}
+                    <select name="sports" value={formData.sports} onChange={handleChange}>
+
                         <option value="">Select</option>
                         <option value="American Football">American Football</option>
                         <option value="Artistic Gymnastics">Artistic Gymnastics</option>
@@ -273,16 +312,24 @@ const handleSubmit = async (e) => {
                         <option value="Weightlifting">Weightlifting</option>
 
                     </select>
-                    {formData.sports.includes('Other') && (
+
+                    {/* {formData.sports.includes('Other') && (
                         <input type="text" name="otherSports" value={formData.otherSports} onChange={handleChange} placeholder="Enter other sports" />
-                    )}
+                    )} */}
+                    {formData.sports === 'Other' && (
+    <input type="text" name="otherSports" value={formData.otherSports} onChange={handleChange} placeholder="Enter other sports" />
+)}
+
                 </label>
                 <br />
 
                 <label>
                     Hobbies:
                     {/* <select name="hobbies" value={formData.hobbies} onChange={handleCheckboxChange} multiple> */}
-                    <select name="hobbies" value={formData.hobbies} onChange={(e) => handleCheckboxChange(e, "hobbies")} multiple>
+                    {/* <select name="hobbies" value={formData.hobbies} onChange={(e) => handleCheckboxChange(e, "hobbies")} multiple> */}
+                    {/* <select name="Hobbies" value={formData.Hobbies} onChange={handleChange}> */}
+                    <select name="hobbies" value={formData.hobbies} onChange={handleChange}>
+
                         <option value="">Select</option>
                         <option value="Astrology">Astrology</option>
                         <option value="Acting">Acting</option>
@@ -421,16 +468,16 @@ const handleSubmit = async (e) => {
                         <option value="Youtube">Youtube</option>
                         <option value="Zumba">Zumba</option>
                         <option value="Zip Lining">Zip Lining</option>
-
-
-
-                        
-
                         <option value="Other">Other</option>
                     </select>
-                    {formData.hobbies.includes('Other') && (
+
+                    {/* {formData.hobbies.includes('Other') && (
                         <input type="text" name="otherHobbies" value={formData.otherHobbies} onChange={handleChange} placeholder="Enter other hobby" />
+                    )} */}
+                    {formData.hobbies === 'Other' && (
+                     <input type="text" name="otherHobbies" value={formData.otherHobbies} onChange={handleChange} placeholder="Enter other hobby" />
                     )}
+
                 </label>
                 <br />
 
@@ -492,3 +539,43 @@ const handleSubmit = async (e) => {
 <option value="Social Work">Social Work</option>
 <option value="Sport and Fitness">Sport and Fitness</option>
 <option value="Statistics">Statistics</option> */}
+
+
+
+
+
+
+
+
+
+
+
+//
+// const handleCheckboxChange = (e, category) => {
+//     console.log("handleCheckboxChange is called");
+//     console.log("Selected category:", category);
+//     console.log("Checked value:", e.target.checked);
+//     console.log("Selected value:", e.target.value);
+
+//     const { name, value, checked } = e.target;
+//     let updatedValues = [];
+
+//     if (value === "Other") {
+//         if (checked) {
+//             updatedValues = [...formData[category], value];
+//         } else {
+//             updatedValues = formData[category].filter((item) => item !== value);
+//         }
+//     } else {
+//         if (checked) {
+//             updatedValues = [...formData[category], value];
+//         } else {
+//             updatedValues = formData[category].filter((item) => item !== value && item !== "Other");
+//         }
+//     }
+
+//     setFormData((prevFormData) => ({
+//         ...prevFormData,
+//         [name]: updatedValues,
+//     }));
+// };

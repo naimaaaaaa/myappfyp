@@ -4,6 +4,7 @@ package com.example.demo.model;
 import java.util.List;
 
 import javax.persistence.Column;
+//import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,82 +25,135 @@ public class UserExtra {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "course")
     private String course;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "hobbies")
     private String hobbies;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "societies")
     private String societies;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "sports")
     private String sports;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "ethnicity")
     private String ethnicity;
-
     public UserExtra() {
     }
-
-    // Getters and setters
-
-    // Convert list attributes to JSON string
-    public void setCourse(List<String> course) {
-        this.course = convertListToJson(course);
+    public Long getId() {
+        return id;
     }
 
-    public void setHobbies(List<String> hobbies) {
-        this.hobbies = convertListToJson(hobbies);
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setSocieties(List<String> societies) {
-        this.societies = convertListToJson(societies);
+    public User getUser() {
+        return user;
     }
 
-    public void setSports(List<String> sports) {
-        this.sports = convertListToJson(sports);
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setEthnicity(List<String> ethnicity) {
-        this.ethnicity = convertListToJson(ethnicity);
+    public String getCourse() {
+        return course;
     }
 
-    // Convert JSON string to list attributes
-    public List<String> getCourse() {
-        return convertJsonToList(course);
+    public void setCourse(String course) {
+        this.course = course;
     }
 
-    public List<String> getHobbies() {
-        return convertJsonToList(hobbies);
+    public String getHobbies() {
+        return hobbies;
     }
 
-    public List<String> getSocieties() {
-        return convertJsonToList(societies);
+    public void setHobbies(String hobbies) {
+        this.hobbies = hobbies;
     }
 
-    public List<String> getSports() {
-        return convertJsonToList(sports);
+    public String getSocieties() {
+        return societies;
     }
 
-    public List<String> getEthnicity() {
-        return convertJsonToList(ethnicity);
+    public void setSocieties(String societies) {
+        this.societies = societies;
     }
 
-    // Helper method to convert list to JSON string
-    private String convertListToJson(List<String> list) {
-        // You can implement your own logic to convert list to JSON string
-        // Here we are just joining the elements with a comma
-        return String.join(",", list);
+    public String getSports() {
+        return sports;
     }
 
-    // Helper method to convert JSON string to list
-    private List<String> convertJsonToList(String json) {
-        // You can implement your own logic to convert JSON string to list
-        // Here we are just splitting the string by comma
-        return List.of(json.split(","));
+    public void setSports(String sports) {
+        this.sports = sports;
+    }
+
+    public String getEthnicity() {
+        return ethnicity;
+    }
+
+    public void setEthnicity(String ethnicity) {
+        this.ethnicity = ethnicity;
     }
 }
+    // Getters and setters
+    // Convert list attributes to JSON string
+    // public void setCourse(String string) {
+    //     this.course = course;
+    // }
+
+    // public void setHobbies(String string) {
+    //     this.hobbies =hobbies;
+    // }
+
+    // public void setSocieties(String string) {
+    //     this.societies = societies;
+    // }
+
+    // public void setSports(String string) {
+    //     this.sports = sports;
+    // }
+
+    // public void setEthnicity(String string) {
+    //     this.ethnicity = ethnicity;
+    // }
+
+    // // Convert JSON string to list attributes
+    // public String getCourse() {
+    //     return course;
+    // }
+
+    // public String getHobbies() {
+    //     return hobbies;
+    // }
+
+    // public String getSocieties() {
+    //     return societies;
+    // }
+
+    // public String getSports() {
+    //     return sports;
+    // }
+
+    // public String getEthnicity() {
+    //     return ethnicity;
+    // }
+
+    // // Helper method to convert list to JSON string
+    // private String convertListToJson(List<String> list) {
+    //     // You can implement your own logic to convert list to JSON string
+    //     // Here we are just joining the elements with a comma
+    //     return String.join(",", list);
+    // }
+
+    // // Helper method to convert JSON string to list
+    // private List<String> convertJsonToList(String json) {
+    //     // You can implement your own logic to convert JSON string to list
+    //     // Here we are just splitting the string by comma
+    //     return List.of(json.split(","));
+    // }
+
 
 
 

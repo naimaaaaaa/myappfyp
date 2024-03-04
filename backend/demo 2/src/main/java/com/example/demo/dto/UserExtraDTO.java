@@ -3,63 +3,74 @@ package com.example.demo.dto;
 import java.util.List;
 
 public class UserExtraDTO {
-    private List<String> course;
-    private List<String> hobbies;
-    private List<String> societies;
-    private List<String> sports;
-    private List<String> ethnicity;
+    private String course;
+    private String hobbies;
+    private String societies;
+    private String sports;
+    private String ethnicity;
+    private Long userId;
 
     public UserExtraDTO() {
         // Default constructor
     }
 
-    public UserExtraDTO(List<String> course, List<String> hobbies, List<String> societies, List<String> sports, List<String> ethnicity) {
+    public UserExtraDTO(String course, String hobbies, String societies, String sports, String ethnicity, Long userId) {
         this.course = course;
         this.hobbies = hobbies;
         this.societies = societies;
         this.sports = sports;
         this.ethnicity = ethnicity;
+        this.userId= userId;
     }
 
-    public List<String> getCourse() {
+    public String getCourse() {
         return course;
     }
 
-    public void setCourse(List<String> course) {
+    public void setCourse(String course) {
         this.course = course;
     }
 
-    public List<String> getHobbies() {
+    public String getHobbies() {
         return hobbies;
     }
 
-    public void setHobbies(List<String> hobbies) {
+    public void setHobbies(String hobbies) {
         this.hobbies = hobbies;
     }
 
-    public List<String> getSocieties() {
+    public String getSocieties() {
         return societies;
     }
 
-    public void setSocieties(List<String> societies) {
+    public void setSocieties(String societies) {
         this.societies = societies;
     }
 
-    public List<String> getSports() {
+    public String getSports() {
         return sports;
     }
 
-    public void setSports(List<String> sports) {
+    public void setSports(String sports) {
         this.sports = sports;
     }
 
-    public List<String> getEthnicity() {
+    public String getEthnicity() {
         return ethnicity;
     }
 
-    public void setEthnicity(List<String> ethnicity) {
+    public void setEthnicity(String ethnicity) {
         this.ethnicity = ethnicity;
     }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
 }
 
 

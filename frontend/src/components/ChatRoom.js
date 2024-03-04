@@ -14,6 +14,7 @@ const ChatRoom = ({ name }) => {
     useEffect(() => {
         // Fetch user's name from the database
         fetchUsername();
+        // onConnected()
     }, []);
 
     const fetchUsername = async () => {
@@ -213,9 +214,16 @@ const ChatRoom = ({ name }) => {
 console.log('publicChats:', publicChats); // Added to log publicChats state
 console.log('privateChats:', privateChats); // Added to log privateChats state
 
+const truevar = useState(true)
+
+console.log("Hello world", userData)
+
+const fakePublicChat = [{chatSenderName: "Lina", }]
+
 return (
     <div className="container">
-        {userData.connected ?
+                {/* {userData.connected ? */}
+                {userData ?
             <div className="chat-box">
                 <div className="member-list">
                     <ul>
@@ -226,7 +234,10 @@ return (
                     </ul>
                 </div>
                 {tab==="CHATROOM" && <div className="chat-content">
+
+                    {/* Show Messages Section */}
                     <ul className="chat-messages">
+                        {/* Public Chats is not being set */}
                         {publicChats.map((chat,index)=>(
                             <li className={`message ${chat.senderName === userData.name && "self"}`} key={index}>
                                 {chat.senderName !== userData.name && <div className="avatar">{chat.senderName}</div>}
@@ -235,6 +246,8 @@ return (
                             </li>
                         ))}
                     </ul>
+
+                    {/* Send Message Button Container */}
                     <div className="send-message">
                         <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} /> 
                         <button type="button" className="send-button" onClick={sendPublicValue}>send</button>
