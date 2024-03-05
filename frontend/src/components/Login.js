@@ -12,62 +12,68 @@ export default function Login(props){
 
     const validateForm = () => {
         let formValid = false;
-        if (email.current.validity.valueMissing
-            || password.current.validity.valueMissing){
-                alert("Please fill in all text fields.");
-        }else if (email.current.validity.typeMismatch){
-            alert("Invalid e-mail address. Please enter your e-mail again.");
-        }else{
-            formValid = true;
+        if (
+          email.current.validity.valueMissing ||
+          password.current.validity.valueMissing
+        ) {
+          alert("Please fill in all text fields.");
+        } else if (email.current.validity.typeMismatch) {
+          alert("Invalid e-mail address. Please enter your e-mail again.");
+        } else {
+          formValid = true;
         }
         return formValid;
-    }
-
-    const handleSubmit = (event) => {
+      };
+    
+      const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         const dataLogin = {
-            username: email.current.value,
-            password: password.current.value
+          email: email.current.value,
+          password: password.current.value,
         };
 
-        if(validateForm()){
-            axios({
-                method: 'post',
-                url: 'http://localhost:8080/login',
-                data: dataLogin
-            })
-            .then(response=>{
-                if (response.status === 200){
-                    const jwtToken = response.headers.authorization.split(' ')[1]
-                    if (jwtToken !== null) {
-                        console.log(jwtToken);
-                        sessionStorage.setItem("jwt", jwtToken);
-                        setLoggedinUser(email.current.value);
-                    } 
-                    
-                    else
-                    {
-                        alert("Token failure!");
-                        setLoggedinUser("");
-                    }
-                }else
-                {
-                    alert("Login error!")
-                    setLoggedinUser("");
-                }
-            }).then(()=>{
-                email.current.value="";
-                password.current.value="";
-                navigate("/");
-            })
-            .catch(error=>{
-                alert("Login error!")
-                setLoggedinUser("");
-                console.log(error);
-            })
+        console.log(dataLogin)
+    
+        try {
+          const response = await axios.post('http://localhost:8080/login', dataLogin);
+    
+          if (response.status === 200) {
+            const jwtToken = response.headers.authorization.split(" ")[1];
+            sessionStorage.setItem("jwt", jwtToken);
+    
+            const userDataResponse = await axios.get(
+              `http://localhost:8080/user/findByEmail/${email.current.value}`,
+              {
+                headers: {
+                  Authorization: sessionStorage.getItem("jwt"),
+                },
+              }
+            );
+    
+            if (userDataResponse.status === 200) {
+              const userData = userDataResponse.data;
+              setLoggedinUser(userData);
+              console.log("Logged in successfully. User data:", userData);
+              sessionStorage.setItem("userData", JSON.stringify(userData));
+              navigate("/");
+            } else {
+              alert("Failed to fetch user data");
+              setLoggedinUser("");
+            }
+
+            console.log("logged in")
+          } else {
+            alert("Login error!");
+            setLoggedinUser("");
+          }
+        } catch (error) {
+          console.error("Login error!", error);
+          alert("Login error!");
+          setLoggedinUser("");
         }
-      }
+      };
+
 
     return (
         //  <div className="container"> 
@@ -95,8 +101,6 @@ export default function Login(props){
           Create a new account.
         </Link>
         </div>
-       
-
 
         </form>
          </div>
@@ -106,6 +110,105 @@ export default function Login(props){
 
 
 
+//////////////////////////
+
+    
+    // const validateForm = () => {
+    //     let formValid = false;
+    //     if (email.current.validity.valueMissing
+    //         || password.current.validity.valueMissing){
+    //             alert("Please fill in all text fields.");
+    //     }else if (email.current.validity.typeMismatch){
+    //         alert("Invalid e-mail address. Please enter your e-mail again.");
+    //     }else{
+    //         formValid = true;
+    //     }
+    //     return formValid;
+    // }
+
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+
+    //     const dataLogin = {
+    //         username: email.current.value,
+    //         password: password.current.value
+    //     };
+
+
+
+    //     if (response.status === 200)
+    //      {
+    //          const jwtToken = response.headers.authorization.split(" ")[1]; 
+    //          sessionStorage.setItem("jwt", jwtToken); 
+    //     // Fetch additional user data 
+    //     const userDataResponse = await 
+    //     // axios.get(`/user/email/${email.current.value}`,
+       
+    //         axios.get(`/user/findByEmail/${email.current.value}`,
+
+    //      { headers:
+    //          { Authorization: sessionStorage.getItem("jwt"), 
+    //         }, 
+    //     }); 
+    //         if (userDataResponse.status === 200)
+    //          { 
+    //             const userData = userDataResponse.data; 
+    //             setLoggedInUser(userData);
+    //             console.log("Logged in successfully. User data:", userData);
+    //             sessionStorage.setItem('userData', JSON.stringify(userData));
+    //             navigate("/");
+    //          } else 
+    //          { 
+    //             alert("Failed to fetch user data");
+    //             setLoggedInUser("");
+    //          } 
+    //         }
+    //           else 
+    //           {
+    //            alert("Login error!");
+    //           setLoggedInUser(""); 
+    //          }
+
+
+    //     // if(validateForm()){
+    //     //     axios({
+    //     //         method: 'post',
+    //     //         url: 'http://localhost:8080/login',
+    //     //         data: dataLogin
+    //     //     })
+    //     //     .then(response=>{
+    //     //         if (response.status === 200){
+    //     //             const jwtToken = response.headers.authorization.split(' ')[1]
+    //     //             if (jwtToken !== null) {
+    //     //                 console.log(jwtToken);
+    //     //                 sessionStorage.setItem("jwt", jwtToken);
+    //     //                 setLoggedinUser(email.current.value);
+    //     //             } 
+                    
+    //     //             else
+    //     //             {
+    //     //                 alert("Token failure!");
+    //     //                 setLoggedinUser("");
+    //     //             }
+    //     //         }else
+    //     //         {
+    //     //             alert("Login error!")
+    //     //             setLoggedinUser("");
+    //     //         }
+    //     //     }).then(()=>{
+    //     //         email.current.value="";
+    //     //         password.current.value="";
+    //     //         navigate("/");
+    //     //     })
+    //     //     .catch(error=>{
+    //     //         alert("Login error!")
+    //     //         setLoggedinUser("");
+    //     //         console.log(error);
+    //     //     })
+    //     // }
+
+
+    //   }
 
 
 
@@ -115,6 +218,30 @@ export default function Login(props){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-------------------------------------
 // import React, {useRef} from "react";
 // import { Link, useOutletContext } from "react-router-dom";
 // import "../Styles/Login.css"

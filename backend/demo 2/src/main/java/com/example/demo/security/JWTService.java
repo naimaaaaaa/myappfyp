@@ -16,8 +16,11 @@ public class JWTService {
   static final String PREFIX = "Bearer";
 
   // Add token to Authorization header
-  static public void addToken(HttpServletResponse res, String username) {
-    String JwtToken = Jwts.builder().setSubject(username)
+  // static public void addToken(HttpServletResponse res, String username) {
+    static public void addToken(HttpServletResponse res, String email) {
+
+    // String JwtToken = Jwts.builder().setSubject(username)
+    String JwtToken = Jwts.builder().setSubject(email)
         .setExpiration(new Date(System.currentTimeMillis() 
             + EXPIRATIONTIME))
         .signWith(SignatureAlgorithm.HS512, SIGNINGKEY)

@@ -18,6 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.UserPostDTO;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
+import com.example.demo.security.AccountCredentials;
+import com.example.demo.security.JWTService;
+import com.example.demo.security.JWTAuthenticationFilter;
 
 
 @RestController  
@@ -65,11 +73,37 @@ public class UserController {
         return "User Deleted"; 
     }
     
-    //Get User by Email
-    @GetMapping("/user/findByEmail")
-    public Optional<User> getUserByEmail(@RequestParam String email) {
-    	return Optional.ofNullable(userService.findByEmail(email));
-    }
+    @GetMapping("/user/findByEmail/{email}")
+public Optional<User> getUserByEmail(@PathVariable String email) {
+    return Optional.ofNullable(userService.findByEmail(email));
+}
+
+// @PostMapping("/login")
+// public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
+//     // Authenticate user
+//     Authentication authentication = authenticationManager.authenticate(
+//         new UsernamePasswordAuthenticationToken(email, password));
+    
+//     // Set authentication in SecurityContext
+//     SecurityContextHolder.getContext().setAuthentication(authentication);
+
+//     // Generate and return token
+//     String token = JWTService.addToken(email);
+//     return ResponseEntity.ok(token);
+// }
+
+
+  
+    
+}
+
+
+  // //Get User by Email
+    // @GetMapping("/user/findByEmail")
+    // public Optional<User> getUserByEmail(@RequestParam String email) {
+    // 	return Optional.ofNullable(userService.findByEmail(email));
+    // }
+
 //Get user by name
     // @GetMapping("/user/getname")
     // public ResponseEntity<String> getNameByEmail(@RequestParam String email) {
@@ -80,7 +114,3 @@ public class UserController {
     //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
     //     }
     // }
-
-    
-
-}

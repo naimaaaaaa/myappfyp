@@ -13,6 +13,8 @@ import com.example.demo.model.User;
 import com.example.demo.model.UserExtra;
 import com.example.demo.service.UserExtraService;
 import com.example.demo.service.UserService;
+//
+//import com.example.demo.dto.UserPostDTO;
 
 @RestController
 public class UserExtraController {
@@ -29,27 +31,15 @@ public class UserExtraController {
     }
 
     @PostMapping("/user-extra")
-    public ResponseEntity<UserExtra> createUserExtraProfile(@RequestBody UserExtraDTO userExtraDTO) {
-        try {
-            UserExtra userExtra = new UserExtra();
-            userExtra.setCourse(userExtraDTO.getCourse());
-            userExtra.setHobbies(userExtraDTO.getHobbies());
-            userExtra.setSocieties(userExtraDTO.getSocieties());
-            userExtra.setSports(userExtraDTO.getSports());
-            userExtra.setEthnicity(userExtraDTO.getEthnicity());
-            
-            UserExtra createdProfile = userExtraService.createUserExtraProfile(userExtra);
-            return new ResponseEntity<>(createdProfile, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<UserExtra> createUserExtraProfile(@RequestBody UserExtra userExtra) {
+
+        UserExtra savedUserExtra = userExtraService.createUserExtraProfile(userExtra);
+        return new ResponseEntity<>(savedUserExtra, HttpStatus.CREATED);
     }
+
     // @PostMapping("/user-extra")
     // public ResponseEntity<UserExtra> createUserExtraProfile(@RequestBody UserExtraDTO userExtraDTO) {
     //     try {
-    //         // Assuming you have userId available in your UserExtraDTO object
-    //         Long userId = userExtraDTO.getUserId();
-    
     //         UserExtra userExtra = new UserExtra();
     //         userExtra.setCourse(userExtraDTO.getCourse());
     //         userExtra.setHobbies(userExtraDTO.getHobbies());
@@ -57,15 +47,67 @@ public class UserExtraController {
     //         userExtra.setSports(userExtraDTO.getSports());
     //         userExtra.setEthnicity(userExtraDTO.getEthnicity());
             
-    //         // Pass both userExtra and userId to createUserExtraProfile method
-    //         UserExtra createdProfile = userExtraService.createUserExtraProfile(userExtra, userId);
+    //         UserExtra createdProfile = userExtraService.createUserExtraProfile(userExtra);
     //         return new ResponseEntity<>(createdProfile, HttpStatus.CREATED);
     //     } catch (Exception e) {
     //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     //     }
     // }
+
+
+    // @PostMapping("/user-extra")
+    // public ResponseEntity<UserExtra> createUserExtraProfile(@RequestBody UserExtraDTO userExtraDTO) {
+    //     try {
+    //         // Create an instance of UserExtraDTO
+    //         UserExtraDTO userExtraDTOInstance = new UserExtraDTO();
     
-   
+    //         // Now you can call getEmail() on the instance
+    //         User user = userService.findByEmail(userExtraDTOInstance.getEmail());
+            
+    //         if (user == null) {
+    //             // Handle user not found error
+    //             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //         }
+            
+    //         UserExtra userExtra = new UserExtra();
+    //         userExtra.setUser(user);
+    //         userExtra.setCourse(userExtraDTO.getCourse());
+    //         userExtra.setHobbies(userExtraDTO.getHobbies());
+    //         userExtra.setSocieties(userExtraDTO.getSocieties());
+    //         userExtra.setSports(userExtraDTO.getSports());
+    //         userExtra.setEthnicity(userExtraDTO.getEthnicity());
+            
+    //         UserExtra createdProfile = userExtraService.createUserExtraProfile(userExtra);
+    //         return new ResponseEntity<>(createdProfile, HttpStatus.CREATED);
+    //     } catch (Exception e) {
+    //         // Handle exception
+    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    
+    // @PostMapping("/user-extra")
+    // public ResponseEntity<UserExtra> createUserExtraProfile(@RequestBody UserExtraDTO userExtraDTO) {
+    //     try {
+    //         User user = userService.findByEmail(UserExtraDTO.getEmail()); // Fetch user by email
+    //         if (user == null) {
+    //             // Handle user not found error
+    //             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //         }
+            
+    //         UserExtra userExtra = new UserExtra();
+    //         userExtra.setUser(user);
+    //         userExtra.setCourse(userExtraDTO.getCourse());
+    //         userExtra.setHobbies(userExtraDTO.getHobbies());
+    //         userExtra.setSocieties(userExtraDTO.getSocieties());
+    //         userExtra.setSports(userExtraDTO.getSports());
+    //         userExtra.setEthnicity(userExtraDTO.getEthnicity());
+            
+    //         UserExtra createdProfile = userExtraService.createUserExtraProfile(userExtra);
+    //         return new ResponseEntity<>(createdProfile, HttpStatus.CREATED);
+    //     } catch (Exception e) {
+    //         // Handle exception
+    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
 
     @GetMapping("/user-extra/{userId}")
     public ResponseEntity<UserExtra> getUserExtraProfileByUserId(@PathVariable Long userId) {
@@ -100,7 +142,44 @@ public class UserExtraController {
 
 
 
-
+    // @PostMapping("/user-extra")
+    // public ResponseEntity<UserExtra> createUserExtraProfile(@RequestBody UserExtraDTO userExtraDTO) {
+    //     try {
+    //         UserExtra userExtra = new UserExtra();
+    //         userExtra.setCourse(userExtraDTO.getCourse());
+    //         userExtra.setHobbies(userExtraDTO.getHobbies());
+    //         userExtra.setSocieties(userExtraDTO.getSocieties());
+    //         userExtra.setSports(userExtraDTO.getSports());
+    //         userExtra.setEthnicity(userExtraDTO.getEthnicity());
+            
+    //         UserExtra createdProfile = userExtraService.createUserExtraProfile(userExtra);
+    //         return new ResponseEntity<>(createdProfile, HttpStatus.CREATED);
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
+    // @PostMapping("/user-extra")
+    // public ResponseEntity<UserExtra> createUserExtraProfile(@RequestBody UserExtraDTO userExtraDTO) {
+    //     try {
+    //         // Assuming you have userId available in your UserExtraDTO object
+    //         Long userId = userExtraDTO.getUserId();
+    
+    //         UserExtra userExtra = new UserExtra();
+    //         userExtra.setCourse(userExtraDTO.getCourse());
+    //         userExtra.setHobbies(userExtraDTO.getHobbies());
+    //         userExtra.setSocieties(userExtraDTO.getSocieties());
+    //         userExtra.setSports(userExtraDTO.getSports());
+    //         userExtra.setEthnicity(userExtraDTO.getEthnicity());
+            
+    //         // Pass both userExtra and userId to createUserExtraProfile method
+    //         UserExtra createdProfile = userExtraService.createUserExtraProfile(userExtra, userId);
+    //         return new ResponseEntity<>(createdProfile, HttpStatus.CREATED);
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
+    
+   
 
     // @PostMapping("/user-extra")
     // public ResponseEntity<UserExtra> createUserExtraProfile(@RequestBody UserExtra userExtra) {

@@ -80,23 +80,30 @@ public class SecurityConfiguration {
 
 		.antMatchers("/create").permitAll()
 		.antMatchers("/user-extra/create").permitAll()
-		
-		.anyRequest().authenticated() 
-		.and()
-		.authorizeRequests()
+
+		//
+		.antMatchers("/login").permitAll() // Permit access to the login endpoint
+		.anyRequest().authenticated();
+		//
+
+//undo from here
+		//.anyRequest().authenticated() 
+		//.and()
+		//.authorizeRequests()
 		//add endpoints you want public access to here like above.
 
 		
 	
 
 	 
-	    .and()
-	    .authorizeRequests()
+	    //.and()
+	    //.authorizeRequests()
 		//.anyRequest().authenticated() 
 		//todo remove the line above if you want the 403 to stop. this makes every request authenticated. however you can keep it and make all the endpoint authenticated but you gotta explicitly specify the endpoint you want give public access in the line above. 
-		.and()
-
-		
+		//.and()
+// to here
+//delete below
+		http
 		.addFilterBefore(new LoginFilter("/login", authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))),
 				UsernamePasswordAuthenticationFilter.class)
 		.addFilterBefore(new JWTAuthenticationFilter(), 

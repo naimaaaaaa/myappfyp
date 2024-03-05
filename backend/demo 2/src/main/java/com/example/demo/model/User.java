@@ -32,8 +32,8 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private UserExtra userExtra;
+    // @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    // private UserExtra userExtra;
 
     @NotBlank
     private String name;
