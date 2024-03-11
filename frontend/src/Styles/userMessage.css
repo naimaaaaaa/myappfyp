@@ -1,0 +1,47 @@
+.profile-abbrev {
+    width: 30px;
+    height: 30px;
+    background-color: aqua;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .profile-abbrev text {
+    font-size: 14px;
+  }.profile-abbrev {
+      width: 30px;
+      height: 30px;
+      background-color: aqua;
+      border-radius: 100px;
+      display: flex;
+  }
+  
+  
+  .userChat {
+      display: flex;
+      margin: 30px;
+  }
+  
+  .chat-badge {
+      background: linear-gradient(45deg, rgb(100, 101, 102) 0%, rgb(4, 19, 22) 100%);
+      color: white;
+      padding: 10px 30px;
+      width: 40%;
+      border-radius: 20px;
+      margin: 0 5px ;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+  }
+  
+  .chat-container {
+      height: inherit;
+      overflow-y: auto;
+  }
+  
+  .chat-messages {
+      display: flex;
+      flex-direction: column;
+  }

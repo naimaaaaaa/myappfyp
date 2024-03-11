@@ -1,0 +1,55 @@
+.details-section {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+}
+
+.grid-item {
+    padding: 10px 0px;
+    text-align: left;
+}
+
+
+.profile-image text {
+    font-size: 50px;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+    background-color: rgb(255, 255, 255);
+    border: 5px solid rgb(39, 102, 131);
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.badges-section {
+    display: flex;
+    margin: 20px 0;
+}
+
+.extra-info-title {
+    display: flex;
+    justify-content: space-between
+}
+
+
+@media (min-width: 768px) {
+    .details-section {
+        flex-direction: row;
+    }
+
+    .profile-image {
+        margin: 0 50px;
+    }
+}

@@ -47,88 +47,80 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfiguration {
 	@Autowired
-	 private UserDetailsServiceImpl userDetailsService;
-	
+	private UserDetailsServiceImpl userDetailsService;
+
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-	    auth.userDetailsService(userDetailsService)
-	    .passwordEncoder(new BCryptPasswordEncoder());
+		auth.userDetailsService(userDetailsService)
+				.passwordEncoder(new BCryptPasswordEncoder());
 	}
-	
-	
+
 	@Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+			throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 		http
-			.csrf(csrf -> csrf.disable())
-			.cors().and()
-			.sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-			
+				.csrf(csrf -> csrf.disable())
+				.cors().and()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 		http
-		.authorizeRequests()
-		.antMatchers("/ws/**").permitAll() 
-		.antMatchers(HttpMethod.POST, "/user").permitAll()
-		.antMatchers("/user/findByEmail").permitAll() // Add this line to permit access to /get-name
-		//.antMatchers("/user-extra").permitAll() 
-		.antMatchers(HttpMethod.POST, "/user-extra").permitAll()
+				.authorizeRequests()
+				.antMatchers("/ws/**").permitAll()
+				.antMatchers(HttpMethod.POST, "/login").permitAll()
+				.antMatchers(HttpMethod.POST, "/user").permitAll()
+				.antMatchers(HttpMethod.POST, "/auth/register").permitAll()
+				.antMatchers("/user/findByEmail").permitAll() // Add this line to permit access to /get-name
+				// .antMatchers("/user-extra").permitAll()
+				.antMatchers(HttpMethod.POST, "/user-extra").permitAll()
+				.antMatchers("/create").permitAll()
+				.antMatchers("/user-extra/create").permitAll()
+				.anyRequest().authenticated()
+				.and()
+				.authorizeRequests()
+				// add endpoints you want public access to here like above.
 
-		.antMatchers("/create").permitAll()
-		.antMatchers("/user-extra/create").permitAll()
+				.and()
+				.authorizeRequests()
+				// .anyRequest().authenticated()
+				// todo remove the line above if you want the 403 to stop. this makes every
+				// request authenticated. however you can keep it and make all the endpoint
+				// authenticated but you gotta explicitly specify the endpoint you want give
+				// public access in the line above.
+				.and()
 
-		//
-		.antMatchers("/login").permitAll() // Permit access to the login endpoint
-		.anyRequest().authenticated();
-		//
-
-//undo from here
-		//.anyRequest().authenticated() 
-		//.and()
-		//.authorizeRequests()
-		//add endpoints you want public access to here like above.
-
-		
-	
-
-	 
-	    //.and()
-	    //.authorizeRequests()
-		//.anyRequest().authenticated() 
-		//todo remove the line above if you want the 403 to stop. this makes every request authenticated. however you can keep it and make all the endpoint authenticated but you gotta explicitly specify the endpoint you want give public access in the line above. 
-		//.and()
-// to here
-//delete below
-		http
-		.addFilterBefore(new LoginFilter("/login", authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))),
-				UsernamePasswordAuthenticationFilter.class)
-		.addFilterBefore(new JWTAuthenticationFilter(), 
-				UsernamePasswordAuthenticationFilter.class);
-		
+				.addFilterBefore(
+						new LoginFilter("/login",
+								authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))),
+						UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(new JWTAuthenticationFilter(),
+						UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}
-	
+
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-				.allowedOrigins("http://localhost:3000")
+						.allowedOrigins("http://localhost:3000")
+						//
+						// .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+						.allowedMethods("*")
+						.allowedHeaders("*")
+						.exposedHeaders("Authorization")
+						.allowCredentials(true)
+						.maxAge(3600);
+
 				//
-				// .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-				.allowedMethods("*") 
-                    .allowedHeaders("*")
-                    .exposedHeaders("Authorization")
-                    .allowCredentials(true)
-                    .maxAge(3600);
-					
-					//
 			}
 		};
 	}
@@ -140,10 +132,8 @@ public class SecurityConfiguration {
 		commonsResolver.setDefaultEncoding("UTF-8");
 		resolver = commonsResolver;
 	}
-	
 
-
-
+}
 
 // package com.example.demo.security;
 
@@ -169,19 +159,29 @@ public class SecurityConfiguration {
 // import org.springframework.web.cors.CorsConfiguration;
 // import org.springframework.web.cors.CorsConfigurationSource;
 // import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+// //
+// import org.springframework.web.multipart.MultipartResolver;
+// import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+// //
 // import org.springframework.web.servlet.config.annotation.CorsRegistry;
 // import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+// import org.springframework.http.HttpMethod;
+// import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 // import com.example.demo.security.JWTAuthenticationFilter;
 // import com.example.demo.security.LoginFilter;
 
 // import static org.springframework.security.config.Customizer.withDefaults;
-
+// //
+// import org.springframework.context.annotation.Bean;
+// //import org.springframework
+// //
 
 // import java.util.Arrays;
 
 // @Configuration
-// //@EnableWebSecurity
+// @EnableWebSecurity
 // public class SecurityConfiguration {
 // 	@Autowired
 // 	 private UserDetailsServiceImpl userDetailsService;
@@ -203,25 +203,53 @@ public class SecurityConfiguration {
 
 // 		http
 // 			.csrf(csrf -> csrf.disable())
-// 			.cors()
-// 			.and()
+// 			.cors().and()
 // 			.sessionManagement()
-// 	        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+// 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 			
 // 		http
 // 		.authorizeRequests()
-// 		//.antMatchers(HttpMethod.POST, "/user")
+// 		.antMatchers("/ws/**").permitAll() 
 // 		.antMatchers(HttpMethod.POST, "/user").permitAll()
-// 	   // .permitAll()
-// 	   //remove below if anything
-// 	   .antMatchers(HttpMethod.GET,"/get-name").permitAll()
-// 		//
-// 	  //  .and() uncomment
-// 	   // .authorizeRequests() uncomment
-// 	   .antMatchers(HttpMethod.POST, "/user-extra/create").permitAll()
+// 		.antMatchers("/user/findByEmail").permitAll() // Add this line to permit access to /get-name
+// 		//.antMatchers("/user-extra").permitAll() 
+// 		.antMatchers(HttpMethod.GET, "/user-extra/{userId}").permitAll()
+// 		//.antMatchers(HttpMethod.PUT, "/updateUserExtra/{userId}").permitAll() 
+// 		//.antMatchers(HttpMethod.DELETE, "/delete/{userId}").permitAll() 
+// 		.antMatchers(HttpMethod.DELETE, "/user-extra/{userId}").permitAll() 
+// 		.antMatchers(HttpMethod.PUT, "/user-extra/{userId}").permitAll() 
+// 		.antMatchers(HttpMethod.POST, "/user-extra").permitAll() 
+// 		.antMatchers(HttpMethod.POST, "/{userId}/add").permitAll() 
 
-// 		.anyRequest().authenticated()
-// 		.and()
+		
+// 		// Permit DELETE requests for user-extra /updateUserExtra/{userId}
+
+// 		.antMatchers("/create").permitAll()
+// 		.antMatchers("/user-extra/create").permitAll()
+
+// 		//
+// 		.antMatchers("/login").permitAll() // Permit access to the login endpoint
+// 		.anyRequest().authenticated();
+// 		//
+
+// //undo from here
+// 		//.anyRequest().authenticated() 
+// 		//.and()
+// 		//.authorizeRequests()
+// 		//add endpoints you want public access to here like above.
+
+		
+	
+
+	 
+// 	    //.and()
+// 	    //.authorizeRequests()
+// 		//.anyRequest().authenticated() 
+// 		//todo remove the line above if you want the 403 to stop. this makes every request authenticated. however you can keep it and make all the endpoint authenticated but you gotta explicitly specify the endpoint you want give public access in the line above. 
+// 		//.and()
+// // to here
+// //delete below
+// 		http
 // 		.addFilterBefore(new LoginFilter("/login", authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))),
 // 				UsernamePasswordAuthenticationFilter.class)
 // 		.addFilterBefore(new JWTAuthenticationFilter(), 
@@ -231,50 +259,35 @@ public class SecurityConfiguration {
 // 		return http.build();
 // 	}
 	
-// //delete below
-// 	@Bean
-//     public CorsConfigurationSource corsConfigurationSource() {
-//         CorsConfiguration configuration = new CorsConfiguration();
-//         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Configure allowed origins
-//         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // Configure allowed HTTP methods
-//         configuration.setAllowedHeaders(Arrays.asList("*")); // Configure allowed headers
-//         configuration.setAllowCredentials(true); // Allow credentials (e.g., cookies)
-
-//         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//         source.registerCorsConfiguration("/**", configuration); // Register CORS configuration for all paths
-
-//         return source;
-//     }
-// //
-
 // 	@Bean
 // 	public WebMvcConfigurer corsConfigurer() {
 // 		return new WebMvcConfigurer() {
 // 			@Override
 // 			public void addCorsMappings(CorsRegistry registry) {
 // 				registry.addMapping("/**")
-// 				.allowedOrigins("http://localhost:3000");
+// 				.allowedOrigins("http://localhost:3000")
+// 				//
+// 				// .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+// 				.allowedMethods("*") 
+//                     .allowedHeaders("*")
+//                     .exposedHeaders("Authorization")
+//                     .allowCredentials(true)
+//                     .maxAge(3600);
+					
+// 					//
 // 			}
 // 		};
 // 	}
+
+// 	public void configureMultipart(MultipartResolver resolver) {
+// 		CommonsMultipartResolver commonsResolver = new CommonsMultipartResolver();
+// 		commonsResolver.setMaxUploadSize(-1);
+// 		commonsResolver.setMaxInMemorySize(1048576);
+// 		commonsResolver.setDefaultEncoding("UTF-8");
+// 		resolver = commonsResolver;
+// 	}
 	
 
-// 	/*
-// 	//If you want to configure an InMemory User for testing
-// 	@Bean
-// 	public UserDetailsService userDetailsService() {
-// 		UserDetails user = User
-// 				.withUsername("user")
-// 				.password(passwordEncoder().encode("password"))
-// 				.roles("USER")
-// 				.build();
-// 		return new InMemoryUserDetailsManager(user);
-// 	}
+// }
 
-// 	@Bean
-// 	   public PasswordEncoder passwordEncoder() {
-// 	       return new BCryptPasswordEncoder();
-// 	   } 
-// 	   */
- }
 

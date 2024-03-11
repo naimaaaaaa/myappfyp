@@ -16,10 +16,7 @@ public class JWTService {
   static final String PREFIX = "Bearer";
 
   // Add token to Authorization header
-  // static public void addToken(HttpServletResponse res, String username) {
-    static public void addToken(HttpServletResponse res, String email) {
-
-    // String JwtToken = Jwts.builder().setSubject(username)
+  static public void addToken(HttpServletResponse res, String email) {
     String JwtToken = Jwts.builder().setSubject(email)
         .setExpiration(new Date(System.currentTimeMillis() 
             + EXPIRATIONTIME))
@@ -35,17 +32,77 @@ public class JWTService {
     String token = request.getHeader("Authorization");
     if (token != null) {
      try {
-      String user = Jwts.parser()
+      String email = Jwts.parser()
           .setSigningKey(SIGNINGKEY)
           .parseClaimsJws(token.replace(PREFIX, ""))
           .getBody()
           .getSubject();
-      if (user != null) 
-    	  return new UsernamePasswordAuthenticationToken(user, null, emptyList()); 
+      if (email != null) 
+    	  return new UsernamePasswordAuthenticationToken(email, null, emptyList()); 
       }catch(Exception e){
     	System.out.println("Error parsing JWT token: "+e.getMessage());
       }
     }
     return null;
   }
+
+  //Generate token
+  static String generateToken(String username) {
+    return Jwts.builder()
+        .setSubject(username)
+        .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
+        .signWith(SignatureAlgorithm.HS512, SIGNINGKEY)
+        .compact();
 }
+}
+// package com.example.demo.security;
+
+// import io.jsonwebtoken.Jwts;
+// import io.jsonwebtoken.SignatureAlgorithm;
+// import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+// import org.springframework.security.core.Authentication;
+// import javax.servlet.http.HttpServletRequest;
+// import javax.servlet.http.HttpServletResponse;
+// import java.util.Date;
+
+// import static java.util.Collections.emptyList;
+
+// public class JWTService {
+//   static final long EXPIRATIONTIME = 864_000_00; // 1 day in milliseconds
+//   static final String SIGNINGKEY = "SecretKey";
+//   static final String PREFIX = "Bearer";
+
+//   // Add token to Authorization header
+//   // static public void addToken(HttpServletResponse res, String username) {
+//     static public void addToken(HttpServletResponse res, String email) {
+
+//     // String JwtToken = Jwts.builder().setSubject(username)
+//     String JwtToken = Jwts.builder().setSubject(email)
+//         .setExpiration(new Date(System.currentTimeMillis() 
+//             + EXPIRATIONTIME))
+//         .signWith(SignatureAlgorithm.HS512, SIGNINGKEY)
+//         .compact();
+//     System.out.println(JwtToken);
+//     res.addHeader("Authorization", PREFIX + " " + JwtToken);
+//     res.addHeader("Access-Control-Expose-Headers", "Authorization");
+//   }
+
+//   // Get token from Authorization header
+//   static public Authentication getAuthentication(HttpServletRequest request) {
+//     String token = request.getHeader("Authorization");
+//     if (token != null) {
+//      try {
+//       String user = Jwts.parser()
+//           .setSigningKey(SIGNINGKEY)
+//           .parseClaimsJws(token.replace(PREFIX, ""))
+//           .getBody()
+//           .getSubject();
+//       if (user != null) 
+//     	  return new UsernamePasswordAuthenticationToken(user, null, emptyList()); 
+//       }catch(Exception e){
+//     	System.out.println("Error parsing JWT token: "+e.getMessage());
+//       }
+//     }
+//     return null;
+//   }
+// }

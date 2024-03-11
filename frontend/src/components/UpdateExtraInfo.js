@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-export default function ExtraInfo() {
+export default function UpdateExtraInfo() {
   const jwt = sessionStorage.getItem("jwt");
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const [formData, setFormData] = useState({
@@ -14,6 +14,7 @@ export default function ExtraInfo() {
     successMessage: "",
     errorMessage: "",
   });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -27,10 +28,10 @@ export default function ExtraInfo() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
+    try {  
       console.log(userData);
       const response = await axios.post(
-        "http://localhost:8080/user-extra",
+        `http://localhost:8080/updateUserExtra/${userData.id}`,
         {
           ...formData,
           societies:
@@ -61,6 +62,11 @@ export default function ExtraInfo() {
         societies: "",
         sports: "",
         ethnicity: "",
+        //
+        otherSocieties: "",
+        otherSports: "",
+        otherHobbies: "",
+        //
         successMessage: "User extra profile created successfully!",
         errorMessage: "",
       });
@@ -73,53 +79,7 @@ export default function ExtraInfo() {
     }
   };
 
-  // const handleSubmit = async (e) => {
-  //     // e.preventDefault();
-  //     // try {
-  //     //     const response = await axios.post('/user-extra', {
-  //     //         ...formData,
-  //     //         // Serialize arrays to JSON strings
-  //     //         societies: JSON.stringify(formData.societies),
-  //     //         sports: JSON.stringify(formData.sports),
-  //     //         hobbies: JSON.stringify(formData.hobbies)
-  //     //     }, {
-  //     //         headers: {
-  //     //             Authorization: `Bearer ${jwt}`
-  //     //         }
-  //     //     });
-  //     //     // Handle success
-  //     //     console.log("User extra profile created:", response.data);
-  //     //     setFormData({ ...formData, successMessage: 'User extra profile created successfully', errorMessage: '' });
-  //     // } catch (error) {
-  //     //     // Handle error
-  //     //     console.error("Error creating user extra profile:", error);
-  //     //     setFormData({ ...formData, errorMessage: 'Failed to create user extra profile', successMessage: '' });
-  //     // }
-  //     e.preventDefault();
-  //     try {
-  //         const response = await axios.post('http://localhost:8080/user-extra', formData, {
-  //             headers: {
-  //                 'Content-Type': 'application/json'
-  //             }
-  //         });
-  //         console.log('Response:', response.data);
-  //         setFormData({
-  //             course: '',
-  //             hobbies: '',
-  //             societies: '',
-  //             sports: '',
-  //             ethnicity: '',
-  //             successMessage: 'User extra profile created successfully!',
-  //             errorMessage: ''
-  //         });
-  //     } catch (error) {
-  //         console.error('Error creating user extra profile:', error);
-  //         setFormData(prevState => ({
-  //             ...prevState,
-  //             errorMessage: 'Failed to create user extra profile'
-  //         }));
-  //     }
-  // };
+
 
   return (
     <div>
@@ -580,74 +540,8 @@ export default function ExtraInfo() {
         </label>
         <br />
 
-        <button type="submit">Submit</button>
+        <button type="submit">Update</button>
       </form>
     </div>
   );
 }
-{
-  /* <option value="Chemistry">Chemistry</option>
-<option value="Combined Studies">Combined Studies</option>
-<option value="Computing and IT">Computing and IT</option>
-<option value="Counselling">Counselling</option>
-<option value="Creative Writing">Creative Writing</option>
-<option value="Criminology">Criminology</option>
-<option value="Design">Design</option>
-<option value="Early Years">Early Years</option>
-<option value="Economics">Economics</option>
-<option value="Education">Education</option>
-<option value="Engineering">Engineering</option>
-<option value="English">English</option>
-<option value="Environment">Environment</option>
-<option value="Geography">Geography</option>
-<option value="Health and Social Care">Health and Social Care</option>
-<option value="Health and Wellbeing">Health and Wellbeing</option>
-<option value="Health Sciences">Health Sciences</option>
-<option value="History">History</option>
-<option value="International Studies">International Studies</option>
-<option value="Languages">Languages</option>
-<option value="Law'">Law</option>
-<option value="Mathematics">Mathematics</option>
-<option value="Mental Health ">Mental Health </option>
-<option value="Music">Music</option>
-<option value="Nursing and Healthcare">Nursing and Healthcare </option>
-<option value="Philosophy">Philosophy</option>
-<option value="Physics ">Physics </option>
-<option value="Politics">Politics</option>
-<option value="Psychology">Psychology</option>
-<option value="Science">Science</option>
-<option value="Social Sciences">Social Sciences</option>
-<option value="Social Work">Social Work</option>
-<option value="Sport and Fitness">Sport and Fitness</option>
-<option value="Statistics">Statistics</option> */
-}
-
-//
-// const handleCheckboxChange = (e, category) => {
-//     console.log("handleCheckboxChange is called");
-//     console.log("Selected category:", category);
-//     console.log("Checked value:", e.target.checked);
-//     console.log("Selected value:", e.target.value);
-
-//     const { name, value, checked } = e.target;
-//     let updatedValues = [];
-
-//     if (value === "Other") {
-//         if (checked) {
-//             updatedValues = [...formData[category], value];
-//         } else {
-//             updatedValues = formData[category].filter((item) => item !== value);
-//         }
-//     } else {
-//         if (checked) {
-//             updatedValues = [...formData[category], value];
-//         } else {
-//             updatedValues = formData[category].filter((item) => item !== value && item !== "Other");
-//         }
-//     }
-
-//     setFormData((prevFormData) => ({
-//         ...prevFormData,
-//         [name]: updatedValues,
-//     }));
-// };

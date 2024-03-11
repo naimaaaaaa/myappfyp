@@ -1,10 +1,11 @@
-*{
-    margin:0;
+* {
+    margin: 0;
     box-sizing: border-box;
     font-family: 'Work Sans', sans-serif;
 
 }
-.page{
+
+.page {
     height: 100vh;
     width: 150%;
     display: flex;
@@ -13,7 +14,8 @@
     background-color: rgb(193, 193, 52);
 
 }
-.container{
+
+.container {
     font-family: 'Work Sans', sans-serif;
     font-family: 'Work Sans', sans-serif;
     src: url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
@@ -27,40 +29,42 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    
+
 }
 
-.input-controlreg{
+.input-controlreg {
     width: 185 spx;
-    position:absolute; 
-top: 140px; 
-left: 28%;
-line-height: 1em;
- 
+    position: absolute;
+    top: 140px;
+    left: 28%;
+    line-height: 1em;
+
 }
 
 
-.input-control1reg{
+.input-control1reg {
     width: 200 spx;
-    position:absolute; 
-top:190px; 
-left: 28%;
-line-height: 1em;
- 
+    position: absolute;
+    top: 190px;
+    left: 28%;
+    line-height: 1em;
+
 }
-.input-control2reg{
+
+.input-control2reg {
     width: 185 spx;
-    position:absolute; 
-top:240px; 
- left: 28%;
- line-height: 1em;
- 
+    position: absolute;
+    top: 240px;
+    left: 28%;
+    line-height: 1em;
+
 }
-.input-control3reg{
+
+.input-control3reg {
     width: 185 spx;
-    position:absolute; 
-top:270px; 
- left: 28%;
- line-height: 1em;
- 
+    position: absolute;
+    top: 270px;
+    left: 28%;
+    line-height: 1em;
+
 }

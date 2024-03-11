@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
-import "../Styles/Nav.css";
+import "../Styles/nav.css";
 import { useState } from "react";
 
 export default function RLNav(){

@@ -1,5 +1,5 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import "../Styles/Nav.css";
+import "../Styles/nav.css";
 import { useState } from "react";
 
 export default function Nav() {
@@ -35,9 +35,9 @@ export default function Nav() {
           Profile
         </Link>
 
-        <Link className="nav-link" to={"/ExtraInfo"}>
+        {/* <Link className="nav-link" to={"/ExtraInfo"}>
           ExtraInfo
-        </Link>
+        </Link> */}
         {/* <Link className="nav-link" to={"/UserDetails"}>
          Settings
         </Link>  */}

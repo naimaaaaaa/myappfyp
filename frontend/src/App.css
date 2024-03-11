@@ -7,7 +7,7 @@ body {
 }
 
 div#root {
-  height: 100%; 
+  height: 100%;
 }
 
 .App {
@@ -19,11 +19,10 @@ div#root {
 
 
 .App-header {
-  /* background-image:url(SharingFood.jpg); */
   background-repeat: repeat;
   background-size: contain;
   background-position: center;
-  height:1px;
+  height: 1px;
   width: 100%;
   margin: auto;
 }
@@ -37,29 +36,18 @@ div#root {
   background-color: #333;
 }
 
-/* .nav-link {
-  float: left;
-  display: inline;
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-} */
 .nav-link {
   font-family: "Shapes" bold;
-  /* transition: all 0.15s ease-in-out; */
-  margin:10px;
+  margin: 10px;
   float: left;
   display: inline-flex;
   display: block;
   color: rgb(255, 255, 255);
-  /* #38a52a*/
   padding: 20px 20px;
-  overflow:hidden;
+  overflow: hidden;
   text-decoration: none;
   border-radius: 25px;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .App-link:hover {
@@ -67,13 +55,13 @@ div#root {
 }
 
 .App-main {
-  display: flex;
-  flex-wrap: wrap;
   width: 100%;
   height: 100%;
+  padding: 20px;
+  color: #000;
 }
 
-.sidebar{
+.sidebar {
   width: 25%;
   min-width: 180px;
   background-color: #deded8;
@@ -81,17 +69,17 @@ div#root {
   display: block;
 }
 
-.search{
+.search {
   margin-top: 20px;
   margin-bottom: 20px;
   text-align: left;
 }
 
-.form{
+.form {
   margin: 10px 10px auto;
   min-width: 50%;
   padding: 10px;
-  height:100%;
+  height: 100%;
 }
 
 .labelText {
@@ -101,34 +89,105 @@ div#root {
 }
 
 @media screen and (max-width: 400px) {
-  .App{
-    height:auto;
+  .App {
+    height: auto;
   }
 
-  .App-main{
-    height:auto;
+  .App-main {
+    height: auto;
   }
+
   .sidebar {
-      min-width: 100%;
-      height: auto;
+    min-width: 100%;
+    height: auto;
   }
 
-  .registration{
-    min-width:90%;
-    font-size:smaller;
-    height:auto;
+  .registration {
+    min-width: 90%;
+    font-size: smaller;
+    height: auto;
   }
-  .about-drop-down{
-    display:flex;
+
+  .about-drop-down {
+    display: flex;
     flex-direction: column;
-    height:fit-content;
-    background-color:rgb(49, 167, 49);
-    border-radius:10px;
+    height: fit-content;
+    background-color: rgb(49, 167, 49);
+    border-radius: 10px;
   }
-  #about-button{
-    display:flex;
+
+  #about-button {
+    display: flex;
     justify-content: center;
-    width:75px;
+    width: 75px;
   }
 }
 
+.divider {
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
+}
+
+.badge {
+  background: linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%);
+  color: white;
+  padding: 10px 30px;
+  border-radius: 20px;
+  margin: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s;
+  width: fit-content;
+}
+
+.badge:hover {
+  transform: scale(1.1);
+  background-color: #0d76a8; 
+}
+
+.badge-multi-select {
+  background: linear-gradient(45deg, rgb(68, 70, 71) 0%, rgb(18, 177, 209) 100%);
+  color: white;
+  padding: 10px 30px;
+  width: 50%;
+  border-radius: 20px;
+  margin: 5px auto;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.edit-button {
+  background-color: inherit;
+  color: #000000;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.edit-button:hover {
+  transform: scale(1.1);
+}
+
+.primary-button {
+  background: linear-gradient(to top, #00154c, #12376e, #23487f);
+  color: #ffffff;
+  padding: 10px 10px;
+  border: none;
+  border: 2px solid #00154c;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.secondary-button {
+  background-color: inherit;
+  color: rgb(16, 137, 211);
+  padding: 10px 10px;
+  border: 2px solid rgb(16, 137, 211);
+  border-radius: 20px;
+  cursor: pointer;
+}

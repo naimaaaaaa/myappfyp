@@ -1,10 +1,10 @@
 import "./App.css";
 import {Link, Outlet} from "react-router-dom"
 import React, {useState} from "react"
-import Header from "./components/Header"
+import Header from "./components/header"
 import Sidebar from "./components/Sidebar"
-import RLNav from "./components/RLNav"
-import Nav from "./components/Nav"
+import RLNav from "./components/rlNav"
+import Nav from "./components/nav"
 
 export default function App() {
   const [loggedInUser, setLoggedinUser] = useState("");
