@@ -7,7 +7,9 @@ import { courseArray, hobbiesArray, societiesArray, sportsArray } from "../asset
 import MultiSelectBadge from "../components/multiSelectBadge";
 import Badge from "../components/badge";
 export default function RegistrationPartTwo() {
-    const { name, email, password, ethinicity, reset } = useRegistrationStore();
+    // const { name, email, password, ethinicity, reset } = useRegistrationStore();
+    const { name, email, password, ethnicity, reset } = useRegistrationStore();
+
     const [societies, setSocieties] = useState([])
     const [sports, setSports] = useState([])
     const [hobbies, setHobbies] = useState([])
@@ -38,7 +40,8 @@ export default function RegistrationPartTwo() {
                 name,
                 email,
                 password,
-                ethinicity,
+                // ethinicity,
+                ethnicity,
                 course: course.current.value,
                 societies: societies,
                 sports: sports,

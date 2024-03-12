@@ -10,7 +10,8 @@ export default function Registration() {
     const email = useRef();
     const password = useRef();
     const repPassword = useRef();
-    const ethinicity = useRef();
+    // const ethinicity = useRef();
+    const ethnicity = useRef();
     const tos = useRef();
     const navaigate = useNavigate()
     const validateForm = () => {
@@ -40,7 +41,7 @@ export default function Registration() {
             setName(name.current.value)
             setEmail(email.current.value)
             setPassword(password.current.value)
-            setEthnicity(ethinicity.current.value)
+            setEthnicity(ethnicity.current.value)
             navaigate("/register/part-two")
         }   
     }
@@ -54,7 +55,7 @@ export default function Registration() {
                 <input class="input" ref={name} type="name" name="name" id="name" placeholder="Name" />
                 <input required="true" class="input" ref={password} type="password" name="password" id="password" minLength="8" placeholder="Password" />
                 <input required="true" class="input" ref={repPassword} type="password" name="repPassword" id="repPassword" placeholder="Confirm Password" />
-                <select name="ethnicity" ref={ethinicity} placeholder="Select Ethnicity">
+                <select name="ethnicity" ref={ethnicity} placeholder="Select Ethnicity">
                     <option value="" style={{color: "#695959"}}>Select</option>
                     <option value="Asian, Asian British or Asian Welsh">Asian, Asian British or Asian Welsh</option>
                     <option value="	Black, Black British, Black Welsh, Caribbean or African: African">Black, Black British, Black Welsh, Caribbean or African: African</option>

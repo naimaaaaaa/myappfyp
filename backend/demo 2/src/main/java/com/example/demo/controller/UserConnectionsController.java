@@ -32,19 +32,26 @@
 //     }
 
 
-//     // UserConnectionsController.java
-// @GetMapping("/connections/similar")
-// public ResponseEntity<List<UserExtra>> getSimilarUsers(@RequestParam Long userId) {
-//     List<UserExtra> similarUsers = connectionsService.findSimilarUsers(userId);
-//     return ResponseEntity.ok(similarUsers);
-// }
+// //     // UserConnectionsController.java
+// // @GetMapping("/connections/similar")
+// // public ResponseEntity<List<User>> getSimilarUsers(@RequestParam Long userId) {
+// //     List<User> similarUsers = connectionsService.findSimilarUsers(userId);
+// //     return ResponseEntity.ok(similarUsers);
+// // }
+
+//    // Get similar users for a specific user
+//    @GetMapping("/similar")
+//    public ResponseEntity<List<User>> getSimilarUsers(@RequestParam Long userId) {
+//        List<User> similarUsers = connectionsService.findSimilarUsers(userId);
+//        return ResponseEntity.ok(similarUsers);
+//    }
 
 //     // Add connection for a user
 //     @PostMapping("/{userId}/add")
 //     public ResponseEntity<String> addConnection(@PathVariable Long userId, @RequestParam Long connectionId) {
-//         User user = userService.findById(userId)
+//         User user = userService.findByID(userId)
 //                 .orElse(null);
-//         User connection = userService.findById(connectionId)
+//         User connection = userService.findByID(connectionId)
 //                 .orElse(null);
 //         if (user == null || connection == null) {
 //             return new ResponseEntity<>("User or connection not found", HttpStatus.NOT_FOUND);
@@ -56,9 +63,9 @@
 //     // Remove connection for a user
 //     @PostMapping("/{userId}/remove")
 //     public ResponseEntity<String> removeConnection(@PathVariable Long userId, @RequestParam Long connectionId) {
-//         User user = userService.findById(userId)
+//         User user = userService.findByID(userId)
 //                 .orElse(null);
-//         User connection = userService.findById(connectionId)
+//         User connection = userService.findByID(connectionId)
 //                 .orElse(null);
 //         if (user == null || connection == null) {
 //             return new ResponseEntity<>("User or connection not found", HttpStatus.NOT_FOUND);
