@@ -77,10 +77,11 @@ export default function RegistrationPartTwo() {
     }
 
     return (
+        <div class="login-container">
         <div class="form-container">
             <div class="heading">Sign Up</div>
             <form class="form" noValidate onSubmit={handleSubmit}>
-                <div class="small-heading">Part 2</div>
+                {/* <div class="small-heading">Part 2</div> */}
                 <select name="course" ref={course} placeholder="Select Course">
                     <option value="" style={{ color: "#695959" }}>Select Course</option>
                     {
@@ -152,5 +153,6 @@ export default function RegistrationPartTwo() {
                 }
                 <input class="login-button" type="submit" value="Sign up" />
             </form></div>
+            </div>
     );
 }

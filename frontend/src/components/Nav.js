@@ -28,16 +28,16 @@ export default function Nav() {
         </Link>
 
         <Link className="nav-link" to={"/ChatRoom"}>
-          ChatRoom
+          Chat Room
         </Link>
 
         <Link className="nav-link" to={"/Profile"}>
           Profile
         </Link>
 
-        {/* <Link className="nav-link" to={"/ExtraInfo"}>
-          ExtraInfo
-        </Link> */}
+        <Link className="nav-link" to={"/privateChat"}>
+          Private chat
+        </Link>
         {/* <Link className="nav-link" to={"/UserDetails"}>
          Settings
         </Link>  */}

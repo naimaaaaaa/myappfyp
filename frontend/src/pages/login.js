@@ -56,7 +56,7 @@ export default function Login(props){
       }
 
     return (
-
+   <div class="login-container">
         <div class="form-container">
         <div class="heading">Sign In</div>
         <form action="" class="form" noValidate onSubmit={handleSubmit}>
@@ -65,7 +65,7 @@ export default function Login(props){
                 <span class="forgot-password"><a href="#">Forgot Password ?</a></span>
                 <input class="login-button" type="submit" value="Sign In" />
         </form></div>
-            
+              </div>
             )
 }
 

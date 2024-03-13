@@ -1,0 +1,54 @@
+.home-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+      padding: 30px ;
+    background-image: url("../StudentSpace.png");
+    background-repeat: no-repeat;
+}
+
+/* .hero{
+    background-color: aliceblue;
+    background-image: url("ImageMyappfyp.webp");
+    color: white;
+  }
+  
+.main {
+    width: 100%;
+    height: 100vh;
+    
+  }
+
+ 
+  .content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .content h1{ 
+    font-family: "Shapes" bold;
+    font-size: 50px;
+    font-weight: 600;
+    color: rgba(122, 121, 121, 0.928);
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0px rgb(0, 0, 0);
+  }
+  
+  .content h2{
+    display: inline-block; 
+    color: rgba(122, 121, 121, 0.928);
+    justify-content: center;  
+  }
+   */
+  

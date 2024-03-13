@@ -40,6 +40,10 @@ public class WebSocketController {
         }
     }
 }
+
+
+
+
 // package com.example.demo.websocket;
 
 // import org.springframework.beans.factory.annotation.Autowired;
@@ -49,41 +53,47 @@ public class WebSocketController {
 // import org.springframework.security.core.Authentication;
 // import org.springframework.security.core.context.SecurityContextHolder;
 // import org.springframework.stereotype.Controller;
+// import com.example.demo.service.MessageService;
 
 // @Controller
-// public class WebSocketConroller {
+// public class WebSocketController {
+
+//     private final SimpMessagingTemplate simpMessagingTemplate;
+//     private final MessageService messageService;
 
 //     @Autowired
-//     public SimpMessagingTemplate simpMessagingTemplate;
+//     public WebSocketController(SimpMessagingTemplate simpMessagingTemplate, MessageService messageService) {
+//         this.simpMessagingTemplate = simpMessagingTemplate;
+//         this.messageService = messageService;
+//     }
 
 //     @MessageMapping("/message")
 //     @SendTo("/chatroom/public")
 //     public Message receivePublicMessage(Message message) {
-//         // Handle incoming messages and process logic here
-//         // Ensure that only authenticated users can send messages
-//         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//         if (authentication != null && authentication.isAuthenticated()) {
-//             // Message processing logic
-//             return message;
-//         } else {
-//             // Handle unauthenticated user
-//             return null; // or throw exception
-//         }
+//         messageService.saveMessage(message);
+//         System.out.println("Public message received: " + message);
+//         return message;
 //     }
 
 //     @MessageMapping("/private-message")
 //     public void receivePrivateMessage(Message message) {
-//         // Ensure that only authenticated users can send private messages
 //         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //         if (authentication != null && authentication.isAuthenticated()) {
-//             // Send private message only to the intended recipient
-//             simpMessagingTemplate.convertAndSendToUser(message.getReceiverName(), "/private", message);
+//             messageService.saveMessage(message);
+//             // Ensure receiver name is correct
+//             String receiverName = message.getReceiverName();
+//             if (receiverName != null && !receiverName.isEmpty()) {
+//                 simpMessagingTemplate.convertAndSendToUser(receiverName, "/private", message);
+//                 System.out.println("Private message sent to: " + receiverName);
+//             } else {
+//                 System.err.println("Receiver name is empty or null");
+//             }
 //         } else {
-//             // Handle unauthenticated user
-//             // You may throw an exception or handle it accordingly
+//             System.err.println("User is not authenticated");
 //         }
 //     }
 // }
+
 
 
 

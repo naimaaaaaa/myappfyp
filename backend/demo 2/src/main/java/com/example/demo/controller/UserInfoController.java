@@ -27,28 +27,20 @@ import com.example.demo.service.UserService;
 @RestController
 @RequestMapping("/userInfo")
 public class UserInfoController {
-
     @Autowired
     private UserService userService;
-
-    @Autowired
     private UserExtraService userExtraService;
-
     @Autowired
     private HobbyService hobbyService;
-
     @Autowired
     private SportService sportService;
-
     @Autowired
     private SocietyService societyService;
-
     @GetMapping("/")
     public ResponseEntity<UserInfoDTO> getUserInfoByEmail(@RequestParam String email) {
         if (email == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         Optional<User> existingUser = userService.findByEmail(email);
         if (existingUser.isPresent()) {
             User user = existingUser.get();

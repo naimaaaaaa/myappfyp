@@ -47,10 +47,11 @@ export default function Registration() {
     }
 
     return (
+        <div class="login-container">
         <div class="form-container">
             <div class="heading">Sign Up</div>
             <form class="form" noValidate onSubmit={handleSubmit}>
-                <div class="small-heading">Part 1</div>
+                {/* <div class="small-heading">Part 1</div> */}
                 <input class="input" ref={email} type="email" name="email" id="email" placeholder="E-mail" />
                 <input class="input" ref={name} type="name" name="name" id="name" placeholder="Name" />
                 <input required="true" class="input" ref={password} type="password" name="password" id="password" minLength="8" placeholder="Password" />
@@ -71,5 +72,6 @@ export default function Registration() {
                 </select>
                 <input class="login-button" type="submit" value="Next" />
             </form></div>
+             </div>
     );
 }

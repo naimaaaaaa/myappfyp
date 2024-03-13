@@ -8,6 +8,7 @@ import ChatRoom from "./pages/chatRoom"
 import Profile from "./pages/profile"
 import ExtraInfo from "./pages/extraInfo";
 import RegistrationPartTwo from "./pages/registrationPartTwo";
+import PrivateChat from "./pages/privateChat";
 
 export default function AppRouter(){
   return (
@@ -22,6 +23,8 @@ export default function AppRouter(){
           <Route path={'/chatroom'} element={<ChatRoom />}/>
           <Route path={'/Profile'}  element={<Profile />} />
           <Route path={'/ExtraInfo'} element={<ExtraInfo />}/>
+          <Route path={'/privateChat'} element={<PrivateChat />}/>
+
         </Route>
       </Routes>
     </Router>

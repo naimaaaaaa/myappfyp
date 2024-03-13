@@ -35,7 +35,6 @@ public class UserInfoDTO {
         this.hobbies = hobbies;
         this.societies = societies;
         this.sports = sports;
-
     }
 
     // private List<Object> formatHobbies(List<Hobby> hobbies) {

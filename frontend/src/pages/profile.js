@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
 import "../Styles/profile.css"
+import "../Styles/login.css"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Divider from "../components/divider";
@@ -27,7 +28,6 @@ export default function Profile() {
         const response = await axios.get("http://localhost:8080/userInfo/", {
           params: {
             email: loggedInUser
-           
 
           },
           headers: {
@@ -67,6 +67,7 @@ export default function Profile() {
 
 
   return (
+    <div class="login-container">
     <div>
       <section className="details-section">
         <div className="profile-image">
@@ -91,7 +92,7 @@ export default function Profile() {
       <Societies />
       <Divider />
     </div>
-
+    </div>
   );
 }
 

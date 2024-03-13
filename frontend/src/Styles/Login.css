@@ -25,6 +25,21 @@ font-size: 16px;
 color: rgb(16, 137, 211);
 }
 
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+  background-size: cover;
+  background-position: center center;
+    padding: 30px ;
+  background-image: url("../Empty.png");
+  /* background-repeat: no-repeat; */
+}
+
+
 .form-container {
   width: 100%;
   margin: 0 auto; 

@@ -44,12 +44,15 @@ import "../Styles/home.css";
 export default function Home(){
 
     return (
+          <div className='home-container'>
            <div className='main'>
           
            <div className="content">
-               <h1>Welcome to Student Safe Space!</h1>
-               <h2>Where we encourage peer support and easy new connections</h2>
+               {/* <h1>Welcome to Student Safe Space!</h1>
+               <h2>Where we encourage peer support and easy new connections</h2> */}
+               <link rel="stylesheet" href="../home.css"></link>
            </div>
        </div>
+          </div>
         );
 }

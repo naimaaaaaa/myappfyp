@@ -22,26 +22,21 @@ public class UserService {
     public List<User> getUsers() {
         return (List<User>) userRepository.findAll();
     }
-
     public User addUser(User newUser) {
         return userRepository.save(newUser);
     }
-
     public Optional<User> findByID(Long id) {
         return userRepository.findById(id);
     }
-
     @Transactional
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
         userRepository.delete(user);
     }
-
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-
     public Optional<User> updateUser(Long id, User updatedUser) {
         Optional<User> existingUser = userRepository.findById(id);
         if (existingUser.isPresent()) {
@@ -53,7 +48,6 @@ public class UserService {
             return Optional.empty();
         }
     }
-
     public void saveHobbies(Long userId, List<String> hobbies) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user Id"));
         List<Hobby> hobbyEntities = hobbies.stream()
@@ -62,7 +56,6 @@ public class UserService {
         user.setHobbies(hobbyEntities);
         userRepository.save(user);
     }
-
 }
 // package com.example.demo.service;
 

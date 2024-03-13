@@ -21,6 +21,9 @@ public class WebsocketConfiiguration implements WebSocketMessageBrokerConfigurer
         registry.setUserDestinationPrefix("/user");
     }
 }
+
+
+
 // package com.example.demo.websocket;
 
 // import org.springframework.context.annotation.Configuration;

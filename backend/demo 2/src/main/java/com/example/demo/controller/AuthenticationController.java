@@ -45,17 +45,15 @@ public class AuthenticationController {
 
         @PostMapping("/register")
         public ResponseEntity<User> registerUser(@RequestBody RegistrationDTO newRegisterDTO) {
-                if (newRegisterDTO.getName() == null ||
+                if ( newRegisterDTO.getName() == null ||
                                 newRegisterDTO.getEmail() == null ||
                                 newRegisterDTO.getPassword() == null) {
                         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 }
-
                 Optional<User> existingUser = userService.findByEmail(newRegisterDTO.getEmail());
-                if (existingUser.isPresent()) {
+                if ( existingUser.isPresent()) {
                         return new ResponseEntity<>(HttpStatus.CONFLICT);
                 }
-
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 User newUser = new User(newRegisterDTO.getName(), newRegisterDTO.getEmail(),
                                 encoder.encode(newRegisterDTO.getPassword()));
@@ -75,7 +73,6 @@ public class AuthenticationController {
                                 })
                                 .collect(Collectors.toList());
                 hobbyService.saveAllHobbies(hobbies);
-
                 List<String> societyNames = newRegisterDTO.getSocieties();
                 List<Society> societies = societyNames.stream()
                                 .map(societyName -> {
@@ -85,7 +82,6 @@ public class AuthenticationController {
                                 })
                                 .collect(Collectors.toList());
                 societyService.saveAllSocieties(societies);
-
                 List<String> sportNames = newRegisterDTO.getSports();
                 List<Sport> sports = sportNames.stream()
                                 .map(sportName -> {
@@ -95,9 +91,7 @@ public class AuthenticationController {
                                 })
                                 .collect(Collectors.toList());
                 sportService.saveAllSports(sports);
-
                 userExtraService.createUserExtraProfile(newUserExtra);
-
                 return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
         }
 

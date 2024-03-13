@@ -16,7 +16,8 @@ public class RegistrationDTO {
     public RegistrationDTO() {
     }
 
-    public RegistrationDTO(String name, String email, String password, String course, List<String> hobbies, List<String> societies, List<String> sports, String ethnicity) {
+    public RegistrationDTO(String name, String email, String password, String course, 
+    List<String> hobbies, List<String> societies, List<String> sports, String ethnicity) {
         this.name = name;
         this.email = email;
         this.password = password;
