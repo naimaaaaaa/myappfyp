@@ -111,6 +111,12 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+//----
+    //  // Getter method for hobbies
+    // public List<Hobby> getHobbies() {
+    //     return hobbies;
+    // }
+//------
 
     public void setHobbies(List<Hobby> hobbies) {
         this.hobbies = hobbies;
@@ -123,6 +129,59 @@ public class User implements Serializable {
     // public void setProfilePicture(String fileName) {
     //     this.profilePicture = fileName;
     // }
+    //
+//---------
+
+// // Getter method for sports
+// public List<Sport> getSports() {
+//     return sports;
+// }
+
+// // Setter method for sports
+// public void setSports(List<Sport> sports) {
+//     this.sports = sports;
+// }
+// // Getter method for societies
+// public List<Society> getSocieties() {
+//     return societies;
+// }
+
+// // Setter method for societies
+// public void setSocieties(List<Society> societies) {
+//     this.societies = societies;
+// }
+// // Getter method for course
+// public String getCourse() {
+//     if (userExtra != null) {
+//         return userExtra.getCourse();
+//     }
+//     return null;
+// }
+
+// // Setter method for course
+// public void setCourse(String course) {
+//     if (userExtra == null) {
+//         userExtra = new UserExtra();
+//     }
+//     userExtra.setCourse(course);
+// }
+
+// // Getter method for ethnicity
+// public String getEthnicity() {
+//     if (userExtra != null) {
+//         return userExtra.getEthnicity();
+//     }
+//     return null;
+// }
+
+// // Setter method for ethnicity
+// public void setEthnicity(String ethnicity) {
+//     if (userExtra == null) {
+//         userExtra = new UserExtra();
+//     }
+//     userExtra.setEthnicity(ethnicity);
+// }
+//-----------
 
     @Override
     public String toString() {

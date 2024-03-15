@@ -1,4 +1,200 @@
-// package com.example.demo.service;
+
+package com.example.demo.service;
+
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.Hobby;
+import com.example.demo.model.Society;
+import com.example.demo.model.Sport;
+import com.example.demo.model.User;
+import com.example.demo.model.UserConnections;
+import com.example.demo.repository.UserConnectionsRepository;
+import com.example.demo.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class UserConnectionsService {
+
+    private final UserConnectionsRepository userConnectionsRepository;
+    private final UserRepository userRepository;
+    private final HobbyService hobbyService;
+    private final SportService sportService;
+    private final SocietyService societyService;
+
+    @Autowired
+    public UserConnectionsService(UserConnectionsRepository userConnectionsRepository,
+                                  UserRepository userRepository, HobbyService hobbyService,
+                                  SportService sportService, SocietyService societyService) {
+        this.userConnectionsRepository = userConnectionsRepository;
+        this.userRepository = userRepository;
+        this.hobbyService = hobbyService;
+        this.sportService = sportService;
+        this.societyService = societyService;
+    }
+
+    // public List<User> findSimilarUsers(Long userId) {
+    //     User user = userRepository.findById(userId)
+    //                                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+    //     List<User> similarUsers = new ArrayList<>();
+
+    //     List<String> hobbies = hobbyService.getHobbiesByUserId(userId).stream().map(Hobby::getName).collect(Collectors.toList());
+    //     List<String> societies = societyService.getSocietiesByUserId(userId).stream().map(Society::getName).collect(Collectors.toList());
+    //     List<String> sports = sportService.getSportsByUserId(userId).stream().map(Sport::getName).collect(Collectors.toList());
+
+    //     // Check for users with at least two similar interests
+    //     List<User> allUsers = (List<User>) userRepository.findAll();
+    //     for (User otherUser : allUsers) {
+    //         if (otherUser.getId() != userId) { // Exclude the current user
+    //             int similarInterestCount = 0;
+    //             List<String> otherHobbies = hobbyService.getHobbiesByUserId(otherUser.getId()).stream().map(Hobby::getName).collect(Collectors.toList());
+    //             List<String> otherSocieties = societyService.getSocietiesByUserId(otherUser.getId()).stream().map(Society::getName).collect(Collectors.toList());
+    //             List<String> otherSports = sportService.getSportsByUserId(otherUser.getId()).stream().map(Sport::getName).collect(Collectors.toList());
+
+    //             similarInterestCount += countSimilarInterests(hobbies, otherHobbies);
+    //             similarInterestCount += countSimilarInterests(societies, otherSocieties);
+    //             similarInterestCount += countSimilarInterests(sports, otherSports);
+
+    //             if (similarInterestCount >= 2) {
+    //                 similarUsers.add(otherUser);
+    //             }
+    //         }
+    //     }
+
+    //     return similarUsers;
+    // }
+
+    public List<User> findSimilarUsers(Long userId) {
+        User user = userRepository.findById(userId)
+                                   .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+    
+        List<User> similarUsers = new ArrayList<>();
+    
+        List<String> hobbies = hobbyService.getHobbiesByUserId(userId).stream().map(Hobby::getName).collect(Collectors.toList());
+        List<String> societies = societyService.getSocietiesByUserId(userId).stream().map(Society::getName).collect(Collectors.toList());
+        List<String> sports = sportService.getSportsByUserId(userId).stream().map(Sport::getName).collect(Collectors.toList());
+    
+        // Get user connections
+        List<User> connections = getUserConnections(userId);
+    
+        // Check for users with at least two similar interests
+        List<User> allUsers = (List<User>) userRepository.findAll();
+        for (User otherUser : allUsers) {
+            if (otherUser.getId() != userId && !connections.contains(otherUser)) { // Exclude the current user and already connected users
+                int similarInterestCount = 0;
+                List<String> otherHobbies = hobbyService.getHobbiesByUserId(otherUser.getId()).stream().map(Hobby::getName).collect(Collectors.toList());
+                List<String> otherSocieties = societyService.getSocietiesByUserId(otherUser.getId()).stream().map(Society::getName).collect(Collectors.toList());
+                List<String> otherSports = sportService.getSportsByUserId(otherUser.getId()).stream().map(Sport::getName).collect(Collectors.toList());
+    
+                similarInterestCount += countSimilarInterests(hobbies, otherHobbies);
+                similarInterestCount += countSimilarInterests(societies, otherSocieties);
+                similarInterestCount += countSimilarInterests(sports, otherSports);
+    
+                if (similarInterestCount >= 2) {
+                    similarUsers.add(otherUser);
+                }
+            }
+        }
+    
+        return similarUsers;
+    }
+    
+
+    private int countSimilarInterests(List<String> interests1, List<String> interests2) {
+        int count = 0;
+        for (String interest : interests1) {
+            if (interests2.contains(interest)) {
+                count++;
+            }
+        }
+        return count;
+    }
+    public void connectUsers(Long userId, Long selectedUserId) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+    
+            User selectedUser = userRepository.findById(selectedUserId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Selected User", "id", selectedUserId));
+    
+            // Check if the users are already connected
+            List<User> connections = getUserConnections(userId);
+            if (connections.contains(selectedUser)) {
+                throw new IllegalStateException("Users are already connected");
+            }
+    
+            // Add selected user to the connections of the current user
+            addConnection(user, selectedUser);
+    
+            // Optionally, you can also add the current user to the connections of the selected user
+            // addConnection(selectedUser, user);
+        } catch (Exception e) {
+            // Log the exception
+            e.printStackTrace();
+            // You can customize the error message as needed
+            throw new RuntimeException("Failed to connect users: " + e.getMessage());
+        }
+    }
+    // public void connectUsers(Long userId, Long selectedUserId) {
+    //     User user = userRepository.findById(userId)
+    //             .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+    
+    //     User selectedUser = userRepository.findById(selectedUserId)
+    //             .orElseThrow(() -> new ResourceNotFoundException("Selected User", "id", selectedUserId));
+    
+    //     // Check if the users are already connected
+    //     List<User> connections = getUserConnections(userId);
+    //     if (connections.contains(selectedUser)) {
+    //         throw new IllegalStateException("Users are already connected");
+    //     }
+    
+    //     // Add selected user to the connections of the current user
+    //     addConnection(user, selectedUser);
+    
+    //     // Optionally, you can also add the current user to the connections of the selected user
+    //     // addConnection(selectedUser, user);
+    // }
+
+    public List<User> getUserConnections(Long userId) {
+        UserConnections userConnections = userConnectionsRepository.findByUserId(userId);
+        if (userConnections != null) {
+            return userConnections.getConnections();
+        }
+        return new ArrayList<>();
+    }
+    
+    public void addConnection(User user, User connection) {
+        UserConnections userConnections = userConnectionsRepository.findByUserId(user.getId());
+        if (userConnections == null) {
+            userConnections = new UserConnections(user, List.of(connection));
+        } else {
+            List<User> connections = userConnections.getConnections();
+            connections.add(connection);
+            userConnections.setConnections(connections);
+        }
+        userConnectionsRepository.save(userConnections);
+    }
+
+    public void deleteConnection(Long userId, Long connectionId) {
+        UserConnections userConnections = userConnectionsRepository.findByUserId(userId);
+        if (userConnections != null) {
+            List<User> connections = userConnections.getConnections();
+            connections.removeIf(user -> user.getId().equals(connectionId));
+            userConnections.setConnections(connections);
+            userConnectionsRepository.save(userConnections);
+        }
+    }
+  
+}
+
+
+
+
+
 
 // import com.example.demo.exception.ResourceNotFoundException;
 // import com.example.demo.model.Hobby;
@@ -55,53 +251,62 @@
 //     }
 
   
-//     // public List<User> findSimilarUsers(Long userId) {
-//     //     List<User> similarUsers = new ArrayList<>();
-//     //     UserConnections userConnections = userConnectionsRepository.findByUserId(userId);
-//     //     if (userConnections == null) {
-//     //         return similarUsers; // No connections found for the user
-//     //     }
-        
-//     //     List<User> connections = userConnections.getConnections();
-//     //     for (User connection : connections) {
-//     //         List<User> connectionConnections = getUserConnections(connection.getId());
-//     //         for (User user : connectionConnections) {
-//     //             if (!user.getId().equals(userId) && !connections.contains(user) && !similarUsers.contains(user)) {
-//     //                 similarUsers.add(user);
-//     //             }
-//     //         }
-//     //     }
-        
-//     //     return similarUsers;
-//     // }
+    
+
 //     public List<User> findSimilarUsers(Long userId) {
-//         List<User> similarUsers = new ArrayList<>();
 //         User user = userRepository.findById(userId)
 //                                   .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-
+//         List<User> similarUsers = new ArrayList<>();
+    
 //         // Fetch hobbies, societies, sports from the user
 //         List<Hobby> hobbies = user.getHobbies();
 //         List<Society> societies = user.getSocieties();
 //         List<Sport> sports = user.getSports();
-
-//         // Find users with similar hobbies, societies, sports
-//         for (Hobby hobby : hobbies) {
-//             List<User> usersWithSimilarHobby = userRepository.findByHobby(hobby.getName());
-//             similarUsers.addAll(usersWithSimilarHobby);
+//         String course = user.getUserExtra().getCourse();
+//         String ethnicity = user.getUserExtra().getEthnicity();
+    
+//         // Count similarities
+//         int similarityCount;
+//         for (User potentialMatch : userRepository.findAll()) {
+//             similarityCount = 0;
+    
+//             // Check hobbies
+//             for (Hobby hobby : hobbies) {
+//                 if (potentialMatch.getHobbies().stream().anyMatch(h -> h.getName().equals(hobby.getName()))) {
+//                     similarityCount++;
+//                 }
+//             }
+    
+//             // Check societies
+//             for (Society society : societies) {
+//                 if (potentialMatch.getSocieties().stream().anyMatch(s -> s.getName().equals(society.getName()))) {
+//                     similarityCount++;
+//                 }
+//             }
+    
+//             // Check sports
+//             for (Sport sport : sports) {
+//                 if (potentialMatch.getSports().stream().anyMatch(sp -> sp.getName().equals(sport.getName()))) {
+//                     similarityCount++;
+//                 }
+//             }
+    
+//             // Check course
+//             if (potentialMatch.getUserExtra().getCourse().equals(course)) {
+//                 similarityCount++;
+//             }
+    
+//             // Check ethnicity
+//             if (potentialMatch.getUserExtra().getEthnicity().equals(ethnicity)) {
+//                 similarityCount++;
+//             }
+    
+//             // Check if user has at least 2 similarities
+//             if (similarityCount >= 2 && !potentialMatch.equals(user)) {
+//                 similarUsers.add(potentialMatch);
+//             }
 //         }
-
-//         for (Society society : societies) {
-//             List<User> usersWithSimilarSociety = userRepository.findBySociety(society.getName());
-//             similarUsers.addAll(usersWithSimilarSociety);
-//         }
-
-//         for (Sport sport : sports) {
-//             List<User> usersWithSimilarSport = userRepository.findBySport(sport.getName());
-//             similarUsers.addAll(usersWithSimilarSport);
-//         }
-
-//         // Remove duplicates and the user itself from the list
-//         similarUsers.remove(user);
+    
 //         return similarUsers;
 //     }
 

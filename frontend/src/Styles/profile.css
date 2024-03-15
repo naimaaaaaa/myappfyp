@@ -23,7 +23,8 @@
 .profile-image {
     width: 150px;
     height: 150px;
-    margin: 0 auto 20px;
+    /* margin: 0 auto 20px; */
+    margin: 0 50px;
     background-color: rgb(255, 255, 255);
     border: 5px solid rgb(39, 102, 131);
     border-radius: 100px;
@@ -52,4 +53,224 @@
     .profile-image {
         margin: 0 50px;
     }
+
+
+    .user-name {
+        font-size: 20px;
+        font-weight: bold;
+      }
+}
+
+.profile-image-connect {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto; /* Center horizontally */
+    background-color: #f0f0f0;
+    border: 5px solid hsl(210, 50%, 60%);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .profile-image-connect text {
+    font-size: 40px; /* Adjust the font size as needed */
+  }
+
+
+  .centered-box {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  /* .user-name {
+    font-size: 15px;
+    margin-top: 10px;
+  } */
+
+  .user-name {
+    font-size: 16px; /* Adjust font size as needed */
+    margin-right: 20px; /* Add margin between profile image and user name */
+  }
+  
+  
+  .divider {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+  }
+ 
+  
+ .similar-users {
+  margin-top: 20px;
+}
+
+  
+  .similar-users h2 {
+    margin-bottom: 10px;
+  }
+  
+  .similar-users ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+  .similar-users li {
+    margin-bottom: 10px;
+  }
+  .similar-users button {
+    margin-left: 10px;
+    border-radius: 20px;
+    padding: 10px 20px;
+  }
+  
+  .similar-users span {
+    margin-right: 10px;
+  }
+
+  .profile-image-small {
+    width: 80px;
+    height: 80px;
+    /* margin: 0; Updated to align to the far left */
+    margin-right: 10px; /* Add some margin between profile image and user name */
+
+    background-color: #f0f0f0;
+    border: 5px solid #6699cc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.profile-image-small text {
+    font-size: 24px; /* Adjust the font size as needed */
+  }
+
+.user-details {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+  }
+  .user-details .rounded-button {
+    margin-left: auto; /* Push the Connect button to the right */
+    margin-bottom: 5px; /* Add margin bottom to create space between buttons */
+  }
+  
+  
+  .user-details .user-name {
+    font-size: 16px; /* Adjust font size as needed */
+    /* margin: 0; Reset margin */
+    /* margin-right: 10px; Add margin between user name and button */
+
+  }
+  
+  
+  /* .rounded-button {
+    background-color: hsl(210, 50%, 60%);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-left: auto;
+    transition: transform 0.2s;
+    margin-bottom: 5px; 
+  } */
+
+
+.rounded-button {
+  background-color: hsl(210, 50%, 60%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 10px;
+  transition: transform 0.2s;
+  margin-bottom: 10px; /* Add margin bottom to create space between buttons */
+  align-self: flex-end; /* Align the connect button to the end of the container */
+  
+}
+
+  .rounded-button:hover {
+    transform: scale(1.1); /* Scale the button when hovered over */
+  }
+
+
+  /* .connected-user {
+    display: flex;
+    align-items: center; 
+  } */
+  .connected-user {
+    display: flex;
+    align-items: center; /* Align items vertically */
+  }
+  
+
+  /* .user-details {
+    display: flex;
+    align-items: center; 
+  } */
+
+
+
+.badges-section {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 5px;
+}
+
+.badge {
+  background-color: #6699cc;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  cursor: default;
+}
+
+.badge:hover {
+  background-color: #5588aa;
+}
+
+/* .unclickable-button {
+  background-color: #6699cc; 
+  color: #ffffff; 
+  border: none;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin-right: 5px;
+} */
+.unclickable-button {
+  background-color: #6699cc;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+
+
+
+/* .user-actions {
+  display: flex;
+  flex-direction: column; 
+} */
+.user-actions {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.delete-button {
+  background-color: #ff6347; /* Set button background color */
+  color: #ffffff; /* Set button text color */
+  border: none;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin-left: auto; /* Push the delete button to the right */
 }

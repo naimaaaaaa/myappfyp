@@ -27,20 +27,31 @@ export default function Nav() {
           Home
         </Link>
 
-        <Link className="nav-link" to={"/ChatRoom"}>
-          Chat Room
-        </Link>
-
         <Link className="nav-link" to={"/Profile"}>
           Profile
+        </Link>
+        
+        <Link className="nav-link" to={"/MakeConnection"}>
+         Make Connections
+        </Link> 
+
+        <Link className="nav-link" to={"/ViewConnection"}>
+         View Connections
+        </Link> 
+        <Link className="nav-link" to={"/ChatRoom"}>
+          Chat Room
         </Link>
 
         <Link className="nav-link" to={"/privateChat"}>
           Private chat
         </Link>
-        {/* <Link className="nav-link" to={"/UserDetails"}>
-         Settings
-        </Link>  */}
+
+        
+
+        <Link className="nav-link" to={"/about"}>
+         About
+        </Link> 
+
       </nav>
       <div className="about-drop-down" onMouseLeave={deactivate_about}>
         <div
@@ -48,7 +59,7 @@ export default function Nav() {
           id="about-button"
           onMouseOver={activate_about}
         >
-          <p>About</p>
+          {/* <p>About</p> */}
         </div>
         {aboutBool}
       </div>

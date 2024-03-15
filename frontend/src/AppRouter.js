@@ -9,6 +9,10 @@ import Profile from "./pages/profile"
 import ExtraInfo from "./pages/extraInfo";
 import RegistrationPartTwo from "./pages/registrationPartTwo";
 import PrivateChat from "./pages/privateChat";
+import UserConnections from "./components/UserConnections";
+import MakeConnection from "./pages/MakeConnection";
+import ViewConnection from "./pages/ViewConnection";
+import About from "./pages/about";
 
 export default function AppRouter(){
   return (
@@ -24,6 +28,10 @@ export default function AppRouter(){
           <Route path={'/Profile'}  element={<Profile />} />
           <Route path={'/ExtraInfo'} element={<ExtraInfo />}/>
           <Route path={'/privateChat'} element={<PrivateChat />}/>
+          <Route path={'/UserConnections'} element={<UserConnections />}/>
+          <Route path={'/MakeConnection'} element={<MakeConnection />}/>
+          <Route path={'/ViewConnection'} element={<ViewConnection />}/>
+          <Route path={'/about'} element={<About />}/>
 
         </Route>
       </Routes>

@@ -322,25 +322,45 @@ export const fakeUserNames = [
 export const fakeMessages = [
   'Anyone interested in discussing ${topic}?',
   'Let\'s talk about ${topic}. Who has some insights?',
-  'I\'m looking for recommendations related to ${topic}.',
+  'I\'m looking for some advice on ${topic}.',
+   
   'Does anyone have experience with ${topic}?',
   'What are your thoughts on ${topic}?',
+   
   'I\'m curious to hear different perspectives on ${topic}.',
   'Any tips or advice for someone new to ${topic}?',
-  'I\'m passionate about ${topic}. Who wants to join the conversation?',
+  // 'I\'m passionate about ${topic}. Who wants to join the conversation?',
   'Let\'s exchange ideas and experiences on ${topic}.',
-  'I recently discovered ${topic} and would love to discuss it further.',
+  // 'I recently discovered ${topic} and would love to discuss it further.',
+   //{topics2},
+  
 ];
 
 export const topics = [
   'university life',
-  'restaurants',
-  'societies',
-  'hobbies',
-  'sports',
-  'music',
-  'movies',
-  'books',
-  'travel',
-  'technology',
+  'student accomodations',
+  'being an international student',
+  'joining societies',
+  'playing sports at uni',
+  'time management',
+  'part time jobs',
+  'entertainment at uni',
+  'university social life',
+  'mental health as a uni students',
+  'how to get mental health help as a uni students',
+  'making friends as a fresher',
+  'how to join societies',
+  'exploring a new city',
+  
+];
+
+export const topics2 = [
+  'Hi guys',
+  'How are you?',
+  'Hey!',
+  'Whats up guys',
+  'Hows everyone today?',
+  'Heyyy, tell me your names?!',
+  'HI!',
+  'Welcome to the chat everyone',
 ];
