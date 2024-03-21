@@ -103,7 +103,14 @@ const PrivateChat = () => {
             {error && <div className="error">{error}</div>}
             <div className="chat-container">
                 <div className="chat-messages">
-                    {/* Your existing code for displaying messages... */}
+                {[...privateChats.values()].map((pc) => (
+                        <UserMessage
+                            key={moment(pc.date).valueOf()} // Use a unique key based on the message date
+                            message={pc.message}
+                            senderName={pc.senderName}
+                            date={pc.date}
+                        />
+                    ))}
                 </div>
                 <div className="private-chat-input">
                     <select value={selectedUser} onChange={(e) => setSelectedUser(e.target.value)}>

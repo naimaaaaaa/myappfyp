@@ -41,7 +41,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
   }
 
   @Override
-  protected void successfulAuthentication(
+  public void successfulAuthentication(
       HttpServletRequest req,
       HttpServletResponse res, FilterChain chain,
       Authentication auth) throws IOException, ServletException {

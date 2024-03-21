@@ -85,9 +85,7 @@ function ViewConnection() {
         }
       });
       console.log("Connection deleted:", response.data);
-      // Filter out the deleted user from the connectedUsers array
       const updatedConnectedUsers = connectedUsers.filter(user => user.id !== connectionId);
-      // Update the state with the filtered connectedUsers array
       setConnectedUsers(updatedConnectedUsers);
     } catch (error) {
       console.error("Error deleting connection:", error);

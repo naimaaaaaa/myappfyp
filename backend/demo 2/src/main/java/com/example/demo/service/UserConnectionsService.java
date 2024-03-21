@@ -36,51 +36,16 @@ public class UserConnectionsService {
         this.societyService = societyService;
     }
 
-    // public List<User> findSimilarUsers(Long userId) {
-    //     User user = userRepository.findById(userId)
-    //                                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-
-    //     List<User> similarUsers = new ArrayList<>();
-
-    //     List<String> hobbies = hobbyService.getHobbiesByUserId(userId).stream().map(Hobby::getName).collect(Collectors.toList());
-    //     List<String> societies = societyService.getSocietiesByUserId(userId).stream().map(Society::getName).collect(Collectors.toList());
-    //     List<String> sports = sportService.getSportsByUserId(userId).stream().map(Sport::getName).collect(Collectors.toList());
-
-    //     // Check for users with at least two similar interests
-    //     List<User> allUsers = (List<User>) userRepository.findAll();
-    //     for (User otherUser : allUsers) {
-    //         if (otherUser.getId() != userId) { // Exclude the current user
-    //             int similarInterestCount = 0;
-    //             List<String> otherHobbies = hobbyService.getHobbiesByUserId(otherUser.getId()).stream().map(Hobby::getName).collect(Collectors.toList());
-    //             List<String> otherSocieties = societyService.getSocietiesByUserId(otherUser.getId()).stream().map(Society::getName).collect(Collectors.toList());
-    //             List<String> otherSports = sportService.getSportsByUserId(otherUser.getId()).stream().map(Sport::getName).collect(Collectors.toList());
-
-    //             similarInterestCount += countSimilarInterests(hobbies, otherHobbies);
-    //             similarInterestCount += countSimilarInterests(societies, otherSocieties);
-    //             similarInterestCount += countSimilarInterests(sports, otherSports);
-
-    //             if (similarInterestCount >= 2) {
-    //                 similarUsers.add(otherUser);
-    //             }
-    //         }
-    //     }
-
-    //     return similarUsers;
-    // }
 
     public List<User> findSimilarUsers(Long userId) {
         User user = userRepository.findById(userId)
                                    .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
     
         List<User> similarUsers = new ArrayList<>();
-    
         List<String> hobbies = hobbyService.getHobbiesByUserId(userId).stream().map(Hobby::getName).collect(Collectors.toList());
         List<String> societies = societyService.getSocietiesByUserId(userId).stream().map(Society::getName).collect(Collectors.toList());
         List<String> sports = sportService.getSportsByUserId(userId).stream().map(Sport::getName).collect(Collectors.toList());
-    
-        // Get user connections
         List<User> connections = getUserConnections(userId);
-    
         // Check for users with at least two similar interests
         List<User> allUsers = (List<User>) userRepository.findAll();
         for (User otherUser : allUsers) {
@@ -89,7 +54,6 @@ public class UserConnectionsService {
                 List<String> otherHobbies = hobbyService.getHobbiesByUserId(otherUser.getId()).stream().map(Hobby::getName).collect(Collectors.toList());
                 List<String> otherSocieties = societyService.getSocietiesByUserId(otherUser.getId()).stream().map(Society::getName).collect(Collectors.toList());
                 List<String> otherSports = sportService.getSportsByUserId(otherUser.getId()).stream().map(Sport::getName).collect(Collectors.toList());
-    
                 similarInterestCount += countSimilarInterests(hobbies, otherHobbies);
                 similarInterestCount += countSimilarInterests(societies, otherSocieties);
                 similarInterestCount += countSimilarInterests(sports, otherSports);
@@ -121,44 +85,18 @@ public class UserConnectionsService {
             User selectedUser = userRepository.findById(selectedUserId)
                     .orElseThrow(() -> new ResourceNotFoundException("Selected User", "id", selectedUserId));
     
-            // Check if the users are already connected
+           
             List<User> connections = getUserConnections(userId);
             if (connections.contains(selectedUser)) {
                 throw new IllegalStateException("Users are already connected");
             }
-    
-            // Add selected user to the connections of the current user
             addConnection(user, selectedUser);
-    
-            // Optionally, you can also add the current user to the connections of the selected user
-            // addConnection(selectedUser, user);
         } catch (Exception e) {
-            // Log the exception
             e.printStackTrace();
-            // You can customize the error message as needed
             throw new RuntimeException("Failed to connect users: " + e.getMessage());
         }
     }
-    // public void connectUsers(Long userId, Long selectedUserId) {
-    //     User user = userRepository.findById(userId)
-    //             .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-    
-    //     User selectedUser = userRepository.findById(selectedUserId)
-    //             .orElseThrow(() -> new ResourceNotFoundException("Selected User", "id", selectedUserId));
-    
-    //     // Check if the users are already connected
-    //     List<User> connections = getUserConnections(userId);
-    //     if (connections.contains(selectedUser)) {
-    //         throw new IllegalStateException("Users are already connected");
-    //     }
-    
-    //     // Add selected user to the connections of the current user
-    //     addConnection(user, selectedUser);
-    
-    //     // Optionally, you can also add the current user to the connections of the selected user
-    //     // addConnection(selectedUser, user);
-    // }
-
+   
     public List<User> getUserConnections(Long userId) {
         UserConnections userConnections = userConnectionsRepository.findByUserId(userId);
         if (userConnections != null) {

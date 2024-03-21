@@ -320,22 +320,18 @@ export const fakeUserNames = [
 ];
 
 export const fakeMessages = [
+  'This is a safe space to talk about ${topic}',
   'Anyone interested in discussing ${topic}?',
   'Let\'s talk about ${topic}. Who has some insights?',
   'I\'m looking for some advice on ${topic}.',
-   
   'Does anyone have experience with ${topic}?',
   'What are your thoughts on ${topic}?',
-   
   'I\'m curious to hear different perspectives on ${topic}.',
   'Any tips or advice for someone new to ${topic}?',
-  // 'I\'m passionate about ${topic}. Who wants to join the conversation?',
   'Let\'s exchange ideas and experiences on ${topic}.',
-  // 'I recently discovered ${topic} and would love to discuss it further.',
-   //{topics2},
-  
+  'I have been struggling with ${topic} and would love some advice on it.',
+  'I have been struggling with mental health, does anyone have some positive insight on how I can deal with it?'
 ];
-
 export const topics = [
   'university life',
   'student accomodations',

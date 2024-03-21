@@ -13,7 +13,6 @@ public class WebsocketConfiiguration implements WebSocketMessageBrokerConfigurer
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
     }
-
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app");
